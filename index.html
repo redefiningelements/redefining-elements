@@ -49,7 +49,6 @@ a{color:inherit;text-decoration:none}
 .logo{
   width:220px;
   max-width:70vw;
-  height:auto;
 }
 
 .logoSpacer{height:56px}
@@ -84,8 +83,6 @@ a{color:inherit;text-decoration:none}
 
 .scrollIndicator img{
   width:56px;
-  height:auto;
-  display:block;
 }
 
 @keyframes scrollFloat{
@@ -94,12 +91,6 @@ a{color:inherit;text-decoration:none}
 }
 
 /* VIDEO BAR */
-.video-bar{
-  width:100%;
-  overflow:hidden;
-  background:#000;
-}
-
 .video-bar video{
   width:100%;
   height:30vh;
@@ -107,7 +98,7 @@ a{color:inherit;text-decoration:none}
   display:block;
 }
 
-/* CONTENT WRAP */
+/* CONTENT */
 .wrap{
   max-width:var(--max);
   margin:0 auto;
@@ -119,39 +110,6 @@ h2{
   margin-bottom:12px;
 }
 
-/* SERVICES */
-.services{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:40px;
-  margin-top:40px;
-}
-
-.service h3{
-  font-size:15px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  margin:16px 0 8px;
-}
-
-.service p{
-  font-size:14px;
-  color:var(--muted);
-  margin:0;
-}
-
-.icon{
-  width:120px;
-  height:120px;
-}
-
-.icon img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-}
-
 /* GALLERY */
 .marquee{
   margin-top:32px;
@@ -159,28 +117,10 @@ h2{
   border-radius:16px;
   border:1px solid rgba(255,255,255,.08);
   background:rgba(255,255,255,.02);
-  position:relative;
+  cursor:grab;
 }
 
-.marquee:before,
-.marquee:after{
-  content:"";
-  position:absolute;
-  top:0; bottom:0;
-  width:64px;
-  z-index:2;
-  pointer-events:none;
-}
-
-.marquee:before{
-  left:0;
-  background:linear-gradient(to right,#000,transparent);
-}
-
-.marquee:after{
-  right:0;
-  background:linear-gradient(to left,#000,transparent);
-}
+.marquee:active{cursor:grabbing}
 
 .marqueeTrack{
   display:flex;
@@ -197,15 +137,35 @@ h2{
 .marqueeTrack img{
   width:320px;
   height:200px;
+  object-fit:cover;
   border-radius:14px;
   border:1px solid rgba(255,255,255,.1);
-  object-fit:cover;
-  display:block;
+  cursor:pointer;
 }
 
 @keyframes marquee{
   from{transform:translateX(0)}
   to{transform:translateX(-50%)}
+}
+
+/* LIGHTBOX */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  padding:24px;
+}
+
+.lightbox img{
+  max-width:96vw;
+  max-height:90vh;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.15);
+  background:#000;
 }
 
 /* FOOTER */
@@ -220,7 +180,6 @@ footer{
 /* MOBILE */
 @media (max-width:900px){
   .hero h1{font-size:34px}
-  .services{grid-template-columns:1fr}
   .video-bar video{height:32vh}
   .marqueeTrack img{
     width:260px;
@@ -237,57 +196,24 @@ footer{
   <div class="heroInner">
     <img src="assets/images/logo.png" alt="Redefining Elements logo" class="logo">
     <div class="slogan">DESIGN · BUILD · CONNECT</div>
-
     <div class="logoSpacer"></div>
-
     <h1>Re-envision your outdoor space.</h1>
     <p>
       We transform underutilized outdoor areas into intentional, buildable environments
-      through thoughtful design, budget awareness, and 3D conceptual visualization.
+      through thoughtful design and 3D visualization.
     </p>
   </div>
 
-  <div class="scrollIndicator" aria-hidden="true">
+  <div class="scrollIndicator">
     <img src="assets/images/triangle.svg" alt="">
   </div>
 </section>
 
-<!-- VIDEO BAR -->
+<!-- VIDEO -->
 <section class="video-bar">
-  <video autoplay muted loop playsinline preload="metadata" poster="assets/video/poster.jpg">
+  <video autoplay muted loop playsinline>
     <source src="assets/video/video-bar.mp4" type="video/mp4">
   </video>
-</section>
-
-<!-- SERVICES -->
-<section class="wrap" id="services">
-  <h2>Services</h2>
-
-  <div class="services">
-    <div class="service">
-      <div class="icon">
-        <img src="assets/images/triangle.svg" alt="Design">
-      </div>
-      <h3>Design</h3>
-      <p>Experience the design in 3D before it exists. From vision to reality—without surprises.</p>
-    </div>
-
-    <div class="service">
-      <div class="icon">
-        <img src="assets/images/roots.svg" alt="Build">
-      </div>
-      <h3>Build</h3>
-      <p>Build-ready drawings with dimensions, materials, and elevations created for accurate estimates.</p>
-    </div>
-
-    <div class="service">
-      <div class="icon">
-        <img src="assets/images/circle.svg" alt="Connect">
-      </div>
-      <h3>Connect</h3>
-      <p>Connecting you with qualified builders aligned to your scope, expectations, and timeline.</p>
-    </div>
-  </div>
 </section>
 
 <!-- GALLERY -->
@@ -296,22 +222,27 @@ footer{
 
   <div class="marquee">
     <div class="marqueeTrack">
-      <img src="assets/gallery/gallery-01.jpg" alt="Finished outdoor project">
-      <img src="assets/gallery/gallery-02.jpg" alt="Finished outdoor project">
-      <img src="assets/gallery/gallery-03.jpg" alt="Finished outdoor project">
-      <img src="assets/gallery/gallery-04.jpg" alt="3D outdoor design rendering">
-      <img src="assets/gallery/gallery-05.jpg" alt="3D outdoor design rendering">
-      <img src="assets/gallery/gallery-06.jpg" alt="3D outdoor design rendering">
+      <img src="assets/gallery/gallery-01.jpg">
+      <img src="assets/gallery/gallery-02.jpg">
+      <img src="assets/gallery/gallery-03.jpg">
+      <img src="assets/gallery/gallery-04.jpg">
+      <img src="assets/gallery/gallery-05.jpg">
+      <img src="assets/gallery/gallery-06.jpg">
 
-      <img src="assets/gallery/gallery-01.jpg" alt="">
-      <img src="assets/gallery/gallery-02.jpg" alt="">
-      <img src="assets/gallery/gallery-03.jpg" alt="">
-      <img src="assets/gallery/gallery-04.jpg" alt="">
-      <img src="assets/gallery/gallery-05.jpg" alt="">
-      <img src="assets/gallery/gallery-06.jpg" alt="">
+      <img src="assets/gallery/gallery-01.jpg">
+      <img src="assets/gallery/gallery-02.jpg">
+      <img src="assets/gallery/gallery-03.jpg">
+      <img src="assets/gallery/gallery-04.jpg">
+      <img src="assets/gallery/gallery-05.jpg">
+      <img src="assets/gallery/gallery-06.jpg">
     </div>
   </div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <img id="lightboxImg" alt="">
+</div>
 
 <footer>
   © <span id="year"></span> Redefining Elements · Design · Build · Connect
@@ -319,6 +250,63 @@ footer{
 
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
+
+/* DRAG + SWIPE */
+(() => {
+  const marquee = document.querySelector(".marquee");
+  const track = document.querySelector(".marqueeTrack");
+  let isDown=false,startX;
+
+  marquee.addEventListener("mousedown",e=>{
+    isDown=true;
+    startX=e.pageX;
+    track.style.animationPlayState="paused";
+  });
+
+  window.addEventListener("mouseup",()=>{
+    if(!isDown) return;
+    isDown=false;
+    track.style.transform="";
+    track.style.animationPlayState="running";
+  });
+
+  window.addEventListener("mousemove",e=>{
+    if(!isDown) return;
+    track.style.transform=`translateX(${e.pageX-startX}px)`;
+  });
+
+  marquee.addEventListener("touchstart",e=>{
+    startX=e.touches[0].pageX;
+    track.style.animationPlayState="paused";
+  },{passive:true});
+
+  marquee.addEventListener("touchmove",e=>{
+    track.style.transform=`translateX(${e.touches[0].pageX-startX}px)`;
+  },{passive:true});
+
+  marquee.addEventListener("touchend",()=>{
+    track.style.transform="";
+    track.style.animationPlayState="running";
+  });
+})();
+
+/* LIGHTBOX */
+(() => {
+  const lb = document.getElementById("lightbox");
+  const img = document.getElementById("lightboxImg");
+
+  document.querySelectorAll(".marqueeTrack img").forEach(el=>{
+    el.addEventListener("click",()=>{
+      img.src = el.src;
+      lb.style.display="flex";
+    });
+  });
+
+  lb.addEventListener("click",()=>{
+    lb.style.display="none";
+    img.src="";
+  });
+})();
 </script>
 
 </body>
