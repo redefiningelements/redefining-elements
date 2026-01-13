@@ -102,7 +102,7 @@ a{color:inherit;text-decoration:none}
 
 .video-bar video{
   width:100%;
-  height:30vh; /* +25% taller */
+  height:30vh;
   object-fit:cover;
   display:block;
 }
@@ -158,7 +158,7 @@ h2{
   overflow:hidden;
   border-radius:16px;
   border:1px solid rgba(255,255,255,.08);
-  background: rgba(255,255,255,.02);
+  background:rgba(255,255,255,.02);
   position:relative;
 }
 
@@ -176,6 +176,7 @@ h2{
   left:0;
   background:linear-gradient(to right,#000,transparent);
 }
+
 .marquee:after{
   right:0;
   background:linear-gradient(to left,#000,transparent);
@@ -186,15 +187,16 @@ h2{
   gap:14px;
   padding:14px;
   width:max-content;
-  animation: marquee 36s linear infinite;
+  animation:marquee 36s linear infinite;
 }
 
 .marquee:hover .marqueeTrack{
-  animation-play-state: paused;
+  animation-play-state:paused;
 }
 
 .marqueeTrack img{
-  height:190px;
+  width:320px;
+  height:200px;
   border-radius:14px;
   border:1px solid rgba(255,255,255,.1);
   object-fit:cover;
@@ -220,7 +222,10 @@ footer{
   .hero h1{font-size:34px}
   .services{grid-template-columns:1fr}
   .video-bar video{height:32vh}
-  .marqueeTrack img{height:160px}
+  .marqueeTrack img{
+    width:260px;
+    height:162px;
+  }
 }
 </style>
 </head>
@@ -242,7 +247,6 @@ footer{
     </p>
   </div>
 
-  <!-- Brand scroll cue -->
   <div class="scrollIndicator" aria-hidden="true">
     <img src="assets/images/triangle.svg" alt="">
   </div>
@@ -260,16 +264,12 @@ footer{
   <h2>Services</h2>
 
   <div class="services">
-
     <div class="service">
       <div class="icon">
         <img src="assets/images/triangle.svg" alt="Design">
       </div>
       <h3>Design</h3>
-      <p>
-        Experience the design in 3D before it exists.
-        From vision to reality—without surprises.
-      </p>
+      <p>Experience the design in 3D before it exists. From vision to reality—without surprises.</p>
     </div>
 
     <div class="service">
@@ -277,10 +277,7 @@ footer{
         <img src="assets/images/roots.svg" alt="Build">
       </div>
       <h3>Build</h3>
-      <p>
-        Build-ready drawings with dimensions, materials, and elevations.
-        Created to support clear, reliable cost estimates before building.
-      </p>
+      <p>Build-ready drawings with dimensions, materials, and elevations created for accurate estimates.</p>
     </div>
 
     <div class="service">
@@ -288,12 +285,8 @@ footer{
         <img src="assets/images/circle.svg" alt="Connect">
       </div>
       <h3>Connect</h3>
-      <p>
-        Builder coordination—connecting you with qualified professionals aligned to your
-        project size, expectations, and timeline.
-      </p>
+      <p>Connecting you with qualified builders aligned to your scope, expectations, and timeline.</p>
     </div>
-
   </div>
 </section>
 
@@ -303,19 +296,19 @@ footer{
 
   <div class="marquee">
     <div class="marqueeTrack">
-      <img src="assets/gallery/gallery-01.jpg">
-      <img src="assets/gallery/gallery-02.jpg">
-      <img src="assets/gallery/gallery-03.jpg">
-      <img src="assets/gallery/gallery-04.jpg">
-      <img src="assets/gallery/gallery-05.jpg">
-      <img src="assets/gallery/gallery-06.jpg">
+      <img src="assets/gallery/gallery-01.jpg" alt="Finished outdoor project">
+      <img src="assets/gallery/gallery-02.jpg" alt="Finished outdoor project">
+      <img src="assets/gallery/gallery-03.jpg" alt="Finished outdoor project">
+      <img src="assets/gallery/gallery-04.jpg" alt="3D outdoor design rendering">
+      <img src="assets/gallery/gallery-05.jpg" alt="3D outdoor design rendering">
+      <img src="assets/gallery/gallery-06.jpg" alt="3D outdoor design rendering">
 
-      <img src="assets/gallery/gallery-01.jpg">
-      <img src="assets/gallery/gallery-02.jpg">
-      <img src="assets/gallery/gallery-03.jpg">
-      <img src="assets/gallery/gallery-04.jpg">
-      <img src="assets/gallery/gallery-05.jpg">
-      <img src="assets/gallery/gallery-06.jpg">
+      <img src="assets/gallery/gallery-01.jpg" alt="">
+      <img src="assets/gallery/gallery-02.jpg" alt="">
+      <img src="assets/gallery/gallery-03.jpg" alt="">
+      <img src="assets/gallery/gallery-04.jpg" alt="">
+      <img src="assets/gallery/gallery-05.jpg" alt="">
+      <img src="assets/gallery/gallery-06.jpg" alt="">
     </div>
   </div>
 </section>
@@ -326,42 +319,6 @@ footer{
 
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
-
-/* Auto-scroll (starts after 1.5s) */
-let allowAutoScroll = true;
-["wheel","touchstart","keydown"].forEach(evt=>{
-  window.addEventListener(evt,()=>allowAutoScroll=false,{once:true});
-});
-
-function smoothScrollTo(targetY, duration){
-  const startY = window.scrollY;
-  const diff = targetY - startY;
-  let start;
-
-  function ease(t){
-    return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
-  }
-
-  function step(ts){
-    if(!start) start = ts;
-    const time = ts - start;
-    const p = Math.min(time / duration, 1);
-    window.scrollTo(0, startY + diff * ease(p));
-    if(time < duration && allowAutoScroll) requestAnimationFrame(step);
-  }
-
-  requestAnimationFrame(step);
-}
-
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    if(!allowAutoScroll) return;
-    const services = document.getElementById("services");
-    if(!services) return;
-    const y = services.getBoundingClientRect().top + window.scrollY - 40;
-    smoothScrollTo(y, 16000);
-  }, 1500);
-});
 </script>
 
 </body>
