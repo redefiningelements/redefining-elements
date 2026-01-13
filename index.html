@@ -49,6 +49,7 @@ a{color:inherit;text-decoration:none}
 .logo{
   width:220px;
   max-width:70vw;
+  height:auto;
 }
 
 .logoSpacer{height:56px}
@@ -83,6 +84,8 @@ a{color:inherit;text-decoration:none}
 
 .scrollIndicator img{
   width:56px;
+  height:auto;
+  display:block;
 }
 
 @keyframes scrollFloat{
@@ -91,6 +94,12 @@ a{color:inherit;text-decoration:none}
 }
 
 /* VIDEO BAR */
+.video-bar{
+  width:100%;
+  overflow:hidden;
+  background:#000;
+}
+
 .video-bar video{
   width:100%;
   height:30vh;
@@ -98,7 +107,7 @@ a{color:inherit;text-decoration:none}
   display:block;
 }
 
-/* CONTENT */
+/* CONTENT WRAP */
 .wrap{
   max-width:var(--max);
   margin:0 auto;
@@ -110,42 +119,100 @@ h2{
   margin-bottom:12px;
 }
 
+/* SERVICES */
+.services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:40px;
+  margin-top:40px;
+}
+
+.service h3{
+  font-size:15px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin:16px 0 8px;
+}
+
+.service p{
+  font-size:14px;
+  color:var(--muted);
+  margin:0;
+}
+
+.icon{
+  width:120px;
+  height:120px;
+}
+
+.icon img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+}
+
 /* GALLERY */
 .marquee{
   margin-top:32px;
-  overflow:hidden;
+  overflow-x:auto;
+  overflow-y:hidden;
   border-radius:16px;
   border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.02);
+  background: rgba(255,255,255,.02);
+  position:relative;
+
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+
   cursor:grab;
+  overscroll-behavior-x: contain;
+  scroll-behavior: auto;
 }
 
-.marquee:active{cursor:grabbing}
+.marquee.dragging{
+  cursor:grabbing;
+  user-select:none;
+}
+
+.marquee::-webkit-scrollbar{
+  display:none;
+}
+
+.marquee:before,
+.marquee:after{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
+  width:64px;
+  z-index:2;
+  pointer-events:none;
+}
+
+.marquee:before{
+  left:0;
+  background:linear-gradient(to right,#000,transparent);
+}
+.marquee:after{
+  right:0;
+  background:linear-gradient(to left,#000,transparent);
+}
 
 .marqueeTrack{
   display:flex;
   gap:14px;
   padding:14px;
   width:max-content;
-  animation:marquee 36s linear infinite;
-}
-
-.marquee:hover .marqueeTrack{
-  animation-play-state:paused;
 }
 
 .marqueeTrack img{
   width:320px;
   height:200px;
-  object-fit:cover;
   border-radius:14px;
   border:1px solid rgba(255,255,255,.1);
+  object-fit:cover;
+  display:block;
   cursor:pointer;
-}
-
-@keyframes marquee{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
 }
 
 /* LIGHTBOX */
@@ -156,16 +223,17 @@ h2{
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:9999;
   padding:24px;
+  z-index:9999;
 }
 
 .lightbox img{
-  max-width:96vw;
+  max-width:min(1100px, 96vw);
   max-height:90vh;
   border-radius:18px;
   border:1px solid rgba(255,255,255,.15);
   background:#000;
+  object-fit:contain;
 }
 
 /* FOOTER */
@@ -180,6 +248,7 @@ footer{
 /* MOBILE */
 @media (max-width:900px){
   .hero h1{font-size:34px}
+  .services{grid-template-columns:1fr}
   .video-bar video{height:32vh}
   .marqueeTrack img{
     width:260px;
@@ -196,51 +265,88 @@ footer{
   <div class="heroInner">
     <img src="assets/images/logo.png" alt="Redefining Elements logo" class="logo">
     <div class="slogan">DESIGN · BUILD · CONNECT</div>
+
     <div class="logoSpacer"></div>
+
     <h1>Re-envision your outdoor space.</h1>
     <p>
       We transform underutilized outdoor areas into intentional, buildable environments
-      through thoughtful design and 3D visualization.
+      through thoughtful design, budget awareness, and 3D conceptual visualization.
     </p>
   </div>
 
-  <div class="scrollIndicator">
+  <div class="scrollIndicator" aria-hidden="true">
     <img src="assets/images/triangle.svg" alt="">
   </div>
 </section>
 
-<!-- VIDEO -->
+<!-- VIDEO BAR -->
 <section class="video-bar">
-  <video autoplay muted loop playsinline>
+  <video autoplay muted loop playsinline preload="metadata" poster="assets/video/poster.jpg">
     <source src="assets/video/video-bar.mp4" type="video/mp4">
   </video>
+</section>
+
+<!-- SERVICES -->
+<section class="wrap" id="services">
+  <h2>Services</h2>
+
+  <div class="services">
+
+    <div class="service">
+      <div class="icon">
+        <img src="assets/images/triangle.svg" alt="Design">
+      </div>
+      <h3>Design</h3>
+      <p>
+        Experience the design in 3D before it exists.
+        From vision to reality—without surprises.
+      </p>
+    </div>
+
+    <div class="service">
+      <div class="icon">
+        <img src="assets/images/roots.svg" alt="Build">
+      </div>
+      <h3>Build</h3>
+      <p>
+        Build-ready drawings with dimensions, materials, and elevations.
+        Created to support clear, reliable cost estimates before building.
+      </p>
+    </div>
+
+    <div class="service">
+      <div class="icon">
+        <img src="assets/images/circle.svg" alt="Connect">
+      </div>
+      <h3>Connect</h3>
+      <p>
+        Builder coordination—connecting you with qualified professionals aligned to your
+        project size, expectations, and timeline.
+      </p>
+    </div>
+
+  </div>
 </section>
 
 <!-- GALLERY -->
 <section class="wrap" id="gallery">
   <h2>Gallery</h2>
 
-  <div class="marquee">
-    <div class="marqueeTrack">
-      <img src="assets/gallery/gallery-01.jpg">
-      <img src="assets/gallery/gallery-02.jpg">
-      <img src="assets/gallery/gallery-03.jpg">
-      <img src="assets/gallery/gallery-04.jpg">
-      <img src="assets/gallery/gallery-05.jpg">
-      <img src="assets/gallery/gallery-06.jpg">
-
-      <img src="assets/gallery/gallery-01.jpg">
-      <img src="assets/gallery/gallery-02.jpg">
-      <img src="assets/gallery/gallery-03.jpg">
-      <img src="assets/gallery/gallery-04.jpg">
-      <img src="assets/gallery/gallery-05.jpg">
-      <img src="assets/gallery/gallery-06.jpg">
+  <div class="marquee" id="marquee">
+    <div class="marqueeTrack" id="marqueeTrack">
+      <img src="assets/gallery/gallery-01.jpg" alt="Finished outdoor project">
+      <img src="assets/gallery/gallery-02.jpg" alt="Finished outdoor project">
+      <img src="assets/gallery/gallery-03.jpg" alt="Finished outdoor project">
+      <img src="assets/gallery/gallery-04.jpg" alt="3D outdoor design rendering">
+      <img src="assets/gallery/gallery-05.jpg" alt="3D outdoor design rendering">
+      <img src="assets/gallery/gallery-06.jpg" alt="3D outdoor design rendering">
     </div>
   </div>
 </section>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
+<div class="lightbox" id="lightbox" aria-hidden="true">
   <img id="lightboxImg" alt="">
 </div>
 
@@ -251,60 +357,129 @@ footer{
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
-/* DRAG + SWIPE */
+/* Duplicate images once for seamless loop */
 (() => {
-  const marquee = document.querySelector(".marquee");
-  const track = document.querySelector(".marqueeTrack");
-  let isDown=false,startX;
+  const track = document.getElementById("marqueeTrack");
+  if(!track) return;
+  const originals = Array.from(track.children);
+  originals.forEach(img => track.appendChild(img.cloneNode(true)));
+})();
 
-  marquee.addEventListener("mousedown",e=>{
-    isDown=true;
-    startX=e.pageX;
-    track.style.animationPlayState="paused";
+/* Auto-scroll using scrollLeft + seamless wrap (no end bounce) */
+(() => {
+  const marquee = document.getElementById("marquee");
+  const track = document.getElementById("marqueeTrack");
+  if(!marquee || !track) return;
+
+  let paused = false;
+  let pauseTimer = null;
+
+  const pauseFor = (ms=1800) => {
+    paused = true;
+    clearTimeout(pauseTimer);
+    pauseTimer = setTimeout(() => paused = false, ms);
+  };
+
+  const wrapScroll = () => {
+    const half = track.scrollWidth / 2;
+    if (half <= 0) return;
+
+    if (marquee.scrollLeft <= 0) {
+      marquee.scrollLeft += half;
+      return;
+    }
+    if (marquee.scrollLeft >= half) {
+      marquee.scrollLeft -= half;
+    }
+  };
+
+  ["pointerdown","wheel","touchstart","keydown"].forEach(evt => {
+    marquee.addEventListener(evt, () => pauseFor(2200), {passive:true});
   });
 
-  window.addEventListener("mouseup",()=>{
+  marquee.addEventListener("scroll", () => {
+    if (marquee._wrapping) return;
+    marquee._wrapping = true;
+    wrapScroll();
+    marquee._wrapping = false;
+  }, {passive:true});
+
+  let last = performance.now();
+  const speed = 20; // px per second
+
+  const step = (now) => {
+    const dt = (now - last) / 1000;
+    last = now;
+
+    if(!paused){
+      marquee.scrollLeft += speed * dt;
+      wrapScroll();
+    }
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+
+  marquee._pauseFor = pauseFor;
+})();
+
+/* Click + drag to scroll (desktop mouse) */
+(() => {
+  const marquee = document.getElementById("marquee");
+  if(!marquee) return;
+
+  let isDown = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+
+  marquee.addEventListener("mousedown", (e) => {
+    if(e.button !== 0) return;
+    isDown = true;
+    marquee.classList.add("dragging");
+    startX = e.pageX;
+    startScrollLeft = marquee.scrollLeft;
+    if (typeof marquee._pauseFor === "function") marquee._pauseFor(3000);
+    e.preventDefault();
+  });
+
+  window.addEventListener("mousemove", (e) => {
     if(!isDown) return;
-    isDown=false;
-    track.style.transform="";
-    track.style.animationPlayState="running";
+    const dx = e.pageX - startX;
+    marquee.scrollLeft = startScrollLeft - dx;
   });
 
-  window.addEventListener("mousemove",e=>{
+  window.addEventListener("mouseup", () => {
     if(!isDown) return;
-    track.style.transform=`translateX(${e.pageX-startX}px)`;
+    isDown = false;
+    marquee.classList.remove("dragging");
   });
 
-  marquee.addEventListener("touchstart",e=>{
-    startX=e.touches[0].pageX;
-    track.style.animationPlayState="paused";
-  },{passive:true});
-
-  marquee.addEventListener("touchmove",e=>{
-    track.style.transform=`translateX(${e.touches[0].pageX-startX}px)`;
-  },{passive:true});
-
-  marquee.addEventListener("touchend",()=>{
-    track.style.transform="";
-    track.style.animationPlayState="running";
+  marquee.addEventListener("mouseleave", () => {
+    if(!isDown) return;
+    isDown = false;
+    marquee.classList.remove("dragging");
   });
 })();
 
-/* LIGHTBOX */
+/* Lightbox */
 (() => {
   const lb = document.getElementById("lightbox");
-  const img = document.getElementById("lightboxImg");
+  const lbImg = document.getElementById("lightboxImg");
+  const track = document.getElementById("marqueeTrack");
+  if(!lb || !lbImg || !track) return;
 
-  document.querySelectorAll(".marqueeTrack img").forEach(el=>{
-    el.addEventListener("click",()=>{
-      img.src = el.src;
-      lb.style.display="flex";
-    });
+  track.addEventListener("click", (e) => {
+    const img = e.target.closest("img");
+    if(!img) return;
+    lbImg.src = img.src;
+    lbImg.alt = img.alt || "Gallery image";
+    lb.style.display = "flex";
+    lb.setAttribute("aria-hidden","false");
   });
 
-  lb.addEventListener("click",()=>{
-    lb.style.display="none";
-    img.src="";
+  lb.addEventListener("click", () => {
+    lb.style.display = "none";
+    lb.setAttribute("aria-hidden","true");
+    lbImg.src = "";
   });
 })();
 </script>
