@@ -25,8 +25,6 @@ body{
   line-height:1.6;
 }
 
-a{color:inherit;text-decoration:none}
-
 /* HERO */
 .hero{
   height:100vh;
@@ -47,12 +45,10 @@ a{color:inherit;text-decoration:none}
 }
 
 .logo{
-  width:165px;
+  width:165px; /* 25% smaller */
   max-width:70vw;
   height:auto;
 }
-
-.logoSpacer{height:56px}
 
 .slogan{
   font-size:13px;
@@ -80,14 +76,13 @@ a{color:inherit;text-decoration:none}
   bottom:32px;
   opacity:.6;
   animation:scrollFloat 4.5s ease-in-out infinite;
+  z-index:3;
 }
-
 .scrollIndicator img{
   width:56px;
   height:auto;
   display:block;
 }
-
 @keyframes scrollFloat{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(10px)}
@@ -99,7 +94,6 @@ a{color:inherit;text-decoration:none}
   overflow:hidden;
   background:#000;
 }
-
 .video-bar video{
   width:100%;
   height:30vh;
@@ -107,29 +101,26 @@ a{color:inherit;text-decoration:none}
   display:block;
 }
 
-/* CONTENT WRAP */
+/* WRAP */
 .wrap{
   max-width:var(--max);
   margin:0 auto;
   padding:96px 24px;
 }
 
-/* tighter spacing BETWEEN the two galleries only */
-.wrap--gallery2{
-  padding-top:32px;
-}
-
-/* slightly tighten the bottom of Design section */
+/* tighten Services → Design */
 .wrap--gallery1{
   padding-top:82px;
-  padding-bottom:38px;
+  padding-bottom:34px;
 }
-
+/* tighten between galleries */
+.wrap--gallery2{
+  padding-top:26px;
 }
 
 h2{
   font-size:22px;
-  margin-bottom:12px;
+  margin:0 0 12px;
 }
 
 /* SERVICES */
@@ -157,7 +148,6 @@ h2{
   width:120px;
   height:120px;
 }
-
 .icon img{
   width:100%;
   height:100%;
@@ -165,32 +155,21 @@ h2{
   display:block;
 }
 
-/* GALLERIES (SCROLL-BASED, MANUAL + AUTO) */
+/* MARQUEE (transform-based, mobile-safe) */
 .marquee{
   margin-top:18px;
-  overflow-x:auto;
-  overflow-y:hidden;
+  overflow:hidden;
   border-radius:16px;
   border:1px solid rgba(255,255,255,.08);
   background: rgba(255,255,255,.02);
   position:relative;
 
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-
   cursor:grab;
-  overscroll-behavior-x: contain;
-  scroll-behavior: auto;
-}
-
-.marquee.dragging{
-  cursor:grabbing;
+  touch-action: pan-y; /* allow page scroll, we handle horizontal drag */
   user-select:none;
 }
 
-.marquee::-webkit-scrollbar{
-  display:none;
-}
+.marquee.dragging{cursor:grabbing}
 
 .marquee:before,
 .marquee:after{
@@ -201,7 +180,6 @@ h2{
   z-index:2;
   pointer-events:none;
 }
-
 .marquee:before{
   left:0;
   background:linear-gradient(to right,#000,transparent);
@@ -211,11 +189,18 @@ h2{
   background:linear-gradient(to left,#000,transparent);
 }
 
+.marqueeViewport{
+  position:relative;
+  z-index:1;
+  padding:14px;
+}
+
 .marqueeTrack{
   display:flex;
   gap:14px;
-  padding:14px;
   width:max-content;
+  will-change:transform;
+  transform:translate3d(0,0,0);
 }
 
 .marqueeTrack img{
@@ -226,12 +211,12 @@ h2{
   object-fit:cover;
   display:block;
   cursor:pointer;
+  pointer-events:auto;
 }
 
-/* 25% smaller Elements bar */
-.marquee.marquee--small .marqueeTrack img{
+.marquee--small .marqueeTrack img{
   width:240px;
-  height:150px;
+  height:150px;              /* 16:10 */
 }
 
 /* LIGHTBOX */
@@ -245,7 +230,6 @@ h2{
   padding:24px;
   z-index:9999;
 }
-
 .lightbox img{
   max-width:min(1100px, 96vw);
   max-height:90vh;
@@ -271,7 +255,7 @@ footer{
   .video-bar video{height:32vh}
 
   .wrap{padding:72px 18px}
-  .wrap--gallery1{padding-bottom:34px}
+  .wrap--gallery1{padding-top:62px;padding-bottom:30px}
   .wrap--gallery2{padding-top:22px}
 
   .marqueeTrack img{
@@ -279,7 +263,7 @@ footer{
     height:162px;
   }
 
-  .marquee.marquee--small .marqueeTrack img{
+  .marquee--small .marqueeTrack img{
     width:195px;
     height:122px;
   }
@@ -294,8 +278,6 @@ footer{
   <div class="heroInner">
     <img src="assets/images/logo.png" alt="Redefining Elements logo" class="logo">
     <div class="slogan">DESIGN · BUILD · CONNECT</div>
-
-    <div class="logoSpacer"></div>
 
     <h1>Re-envision your outdoor space.</h1>
     <p>
@@ -321,7 +303,6 @@ footer{
     <source src="assets/video/video-bar.mp4" type="video/mp4">
   </video>
 </section>
-
 
 <!-- SERVICES -->
 <section class="wrap" id="services">
@@ -370,54 +351,58 @@ footer{
   <h2>Design</h2>
 
   <div class="marquee" id="marquee-design">
-    <div class="marqueeTrack" id="track-design">
-      <img src="assets/gallery/gallery-01.jpg" alt="3D outdoor design rendering">
-      <img src="assets/gallery/gallery-02.jpg" alt="3D outdoor design rendering">
-      <img src="assets/gallery/gallery-03.jpg" alt="3D outdoor design rendering">
-      <img src="assets/gallery/gallery-04.jpg" alt="3D outdoor design rendering">
-      <img src="assets/gallery/gallery-05.jpg" alt="3D outdoor design rendering">
-      <img src="assets/gallery/gallery-06.jpg" alt="3D outdoor design rendering">
+    <div class="marqueeViewport">
+      <div class="marqueeTrack" id="track-design">
+        <img src="assets/gallery/gallery-01.jpg" alt="3D outdoor design rendering">
+        <img src="assets/gallery/gallery-02.jpg" alt="3D outdoor design rendering">
+        <img src="assets/gallery/gallery-03.jpg" alt="3D outdoor design rendering">
+        <img src="assets/gallery/gallery-04.jpg" alt="3D outdoor design rendering">
+        <img src="assets/gallery/gallery-05.jpg" alt="3D outdoor design rendering">
+        <img src="assets/gallery/gallery-06.jpg" alt="3D outdoor design rendering">
+      </div>
     </div>
   </div>
 </section>
 
-<!-- GALLERY 2 (Elements, 31 photos; elements_01.png then elements_02.jpg ... elements_31.jpg) -->
+<!-- GALLERY 2 (Elements, 31 photos) -->
 <section class="wrap wrap--gallery2" id="elements">
   <h2>Elements</h2>
 
   <div class="marquee marquee--small" id="marquee-elements">
-    <div class="marqueeTrack" id="track-elements">
-      <img src="assets/elements/elements_01.png" alt="Outdoor element photo 01">
-      <img src="assets/elements/elements_02.jpg" alt="Outdoor element photo 02">
-      <img src="assets/elements/elements_03.jpg" alt="Outdoor element photo 03">
-      <img src="assets/elements/elements_04.jpg" alt="Outdoor element photo 04">
-      <img src="assets/elements/elements_05.jpg" alt="Outdoor element photo 05">
-      <img src="assets/elements/elements_06.jpg" alt="Outdoor element photo 06">
-      <img src="assets/elements/elements_07.jpg" alt="Outdoor element photo 07">
-      <img src="assets/elements/elements_08.jpg" alt="Outdoor element photo 08">
-      <img src="assets/elements/elements_09.jpg" alt="Outdoor element photo 09">
-      <img src="assets/elements/elements_10.jpg" alt="Outdoor element photo 10">
-      <img src="assets/elements/elements_11.jpg" alt="Outdoor element photo 11">
-      <img src="assets/elements/elements_12.jpg" alt="Outdoor element photo 12">
-      <img src="assets/elements/elements_13.jpg" alt="Outdoor element photo 13">
-      <img src="assets/elements/elements_14.jpg" alt="Outdoor element photo 14">
-      <img src="assets/elements/elements_15.jpg" alt="Outdoor element photo 15">
-      <img src="assets/elements/elements_16.jpg" alt="Outdoor element photo 16">
-      <img src="assets/elements/elements_17.jpg" alt="Outdoor element photo 17">
-      <img src="assets/elements/elements_18.jpg" alt="Outdoor element photo 18">
-      <img src="assets/elements/elements_19.jpg" alt="Outdoor element photo 19">
-      <img src="assets/elements/elements_20.jpg" alt="Outdoor element photo 20">
-      <img src="assets/elements/elements_21.jpg" alt="Outdoor element photo 21">
-      <img src="assets/elements/elements_22.jpg" alt="Outdoor element photo 22">
-      <img src="assets/elements/elements_23.jpg" alt="Outdoor element photo 23">
-      <img src="assets/elements/elements_24.jpg" alt="Outdoor element photo 24">
-      <img src="assets/elements/elements_25.jpg" alt="Outdoor element photo 25">
-      <img src="assets/elements/elements_26.jpg" alt="Outdoor element photo 26">
-      <img src="assets/elements/elements_27.jpg" alt="Outdoor element photo 27">
-      <img src="assets/elements/elements_28.jpg" alt="Outdoor element photo 28">
-      <img src="assets/elements/elements_29.jpg" alt="Outdoor element photo 29">
-      <img src="assets/elements/elements_30.jpg" alt="Outdoor element photo 30">
-      <img src="assets/elements/elements_31.jpg" alt="Outdoor element photo 31">
+    <div class="marqueeViewport">
+      <div class="marqueeTrack" id="track-elements">
+        <img src="assets/elements/elements_01.png" alt="Outdoor element photo 01">
+        <img src="assets/elements/elements_02.jpg" alt="Outdoor element photo 02">
+        <img src="assets/elements/elements_03.jpg" alt="Outdoor element photo 03">
+        <img src="assets/elements/elements_04.jpg" alt="Outdoor element photo 04">
+        <img src="assets/elements/elements_05.jpg" alt="Outdoor element photo 05">
+        <img src="assets/elements/elements_06.jpg" alt="Outdoor element photo 06">
+        <img src="assets/elements/elements_07.jpg" alt="Outdoor element photo 07">
+        <img src="assets/elements/elements_08.jpg" alt="Outdoor element photo 08">
+        <img src="assets/elements/elements_09.jpg" alt="Outdoor element photo 09">
+        <img src="assets/elements/elements_10.jpg" alt="Outdoor element photo 10">
+        <img src="assets/elements/elements_11.jpg" alt="Outdoor element photo 11">
+        <img src="assets/elements/elements_12.jpg" alt="Outdoor element photo 12">
+        <img src="assets/elements/elements_13.jpg" alt="Outdoor element photo 13">
+        <img src="assets/elements/elements_14.jpg" alt="Outdoor element photo 14">
+        <img src="assets/elements/elements_15.jpg" alt="Outdoor element photo 15">
+        <img src="assets/elements/elements_16.jpg" alt="Outdoor element photo 16">
+        <img src="assets/elements/elements_17.jpg" alt="Outdoor element photo 17">
+        <img src="assets/elements/elements_18.jpg" alt="Outdoor element photo 18">
+        <img src="assets/elements/elements_19.jpg" alt="Outdoor element photo 19">
+        <img src="assets/elements/elements_20.jpg" alt="Outdoor element photo 20">
+        <img src="assets/elements/elements_21.jpg" alt="Outdoor element photo 21">
+        <img src="assets/elements/elements_22.jpg" alt="Outdoor element photo 22">
+        <img src="assets/elements/elements_23.jpg" alt="Outdoor element photo 23">
+        <img src="assets/elements/elements_24.jpg" alt="Outdoor element photo 24">
+        <img src="assets/elements/elements_25.jpg" alt="Outdoor element photo 25">
+        <img src="assets/elements/elements_26.jpg" alt="Outdoor element photo 26">
+        <img src="assets/elements/elements_27.jpg" alt="Outdoor element photo 27">
+        <img src="assets/elements/elements_28.jpg" alt="Outdoor element photo 28">
+        <img src="assets/elements/elements_29.jpg" alt="Outdoor element photo 29">
+        <img src="assets/elements/elements_30.jpg" alt="Outdoor element photo 30">
+        <img src="assets/elements/elements_31.jpg" alt="Outdoor element photo 31">
+      </div>
     </div>
   </div>
 </section>
@@ -434,138 +419,8 @@ footer{
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
-function duplicateOnce(trackEl){
-  const originals = Array.from(trackEl.children);
-  originals.forEach(node => trackEl.appendChild(node.cloneNode(true)));
-}
-
-function initMarquee({ marqueeEl, trackEl, speedPxPerSec = 20 }){
-  if(!marqueeEl || !trackEl) return;
-
-  duplicateOnce(trackEl);
-
-  let paused = false;
-  let pauseTimer = null;
-
-  const pauseFor = (ms=1800) => {
-    paused = true;
-    clearTimeout(pauseTimer);
-    pauseTimer = setTimeout(() => paused = false, ms);
-  };
-
-  const wrapScroll = () => {
-    const half = trackEl.scrollWidth / 2;
-    if(half <= 0) return;
-
-    if(marqueeEl.scrollLeft <= 0){
-      marqueeEl.scrollLeft += half;
-      return;
-    }
-    if(marqueeEl.scrollLeft >= half){
-      marqueeEl.scrollLeft -= half;
-    }
-  };
-
-  ["pointerdown","wheel","touchstart","keydown"].forEach(evt => {
-    marqueeEl.addEventListener(evt, () => pauseFor(2200), {passive:true});
-  });
-
-  marqueeEl.addEventListener("scroll", () => {
-    if(marqueeEl._wrapping) return;
-    marqueeEl._wrapping = true;
-    wrapScroll();
-    marqueeEl._wrapping = false;
-  }, {passive:true});
-
-  // mouse drag to scroll
-  let isDown=false, startX=0, startScrollLeft=0;
-  marqueeEl.addEventListener("mousedown", (e) => {
-    if(e.button !== 0) return;
-    isDown = true;
-    marqueeEl.classList.add("dragging");
-    startX = e.pageX;
-    startScrollLeft = marqueeEl.scrollLeft;
-    pauseFor(3000);
-    e.preventDefault();
-  });
-
-  window.addEventListener("mousemove", (e) => {
-    if(!isDown) return;
-    const dx = e.pageX - startX;
-    marqueeEl.scrollLeft = startScrollLeft - dx;
-    wrapScroll();
-  });
-
-  window.addEventListener("mouseup", () => {
-    if(!isDown) return;
-    isDown = false;
-    marqueeEl.classList.remove("dragging");
-  });
-
-  marqueeEl.addEventListener("mouseleave", () => {
-    if(!isDown) return;
-    isDown = false;
-    marqueeEl.classList.remove("dragging");
-  });
-
-  // auto scroll loop
-  let last = performance.now();
-  const step = (now) => {
-    const dt = (now - last) / 1000;
-    last = now;
-
-    if(!paused){
-      marqueeEl.scrollLeft += speedPxPerSec * dt;
-      wrapScroll();
-    }
-    requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-
-  marqueeEl._pauseFor = pauseFor;
-}
-
-initMarquee({
-  marqueeEl: document.getElementById("marquee-design"),
-  trackEl: document.getElementById("track-design"),
-  speedPxPerSec: 20
-});
-
-initMarquee({
-  marqueeEl: document.getElementById("marquee-elements"),
-  trackEl: document.getElementById("track-elements"),
-  speedPxPerSec: 16
-});
-
-/* Lightbox (works for both galleries) */
-(() => {
-  const lb = document.getElementById("lightbox");
-  const lbImg = document.getElementById("lightboxImg");
-  if(!lb || !lbImg) return;
-
-  document.addEventListener("click", (e) => {
-    const img = e.target.closest(".marqueeTrack img");
-    if(!img) return;
-
-    const marquee = img.closest(".marquee");
-    if(marquee && typeof marquee._pauseFor === "function") marquee._pauseFor(3500);
-
-    lbImg.src = img.src;
-    lbImg.alt = img.alt || "Gallery image";
-    lb.style.display = "flex";
-    lb.setAttribute("aria-hidden","false");
-  });
-
-  lb.addEventListener("click", () => {
-    lb.style.display = "none";
-    lb.setAttribute("aria-hidden","true");
-    lbImg.src = "";
-  });
-})();
-
-/* AUTO SCROLL AFTER 1.5s — EXTRA SLOW (90% slower) */
+/* AUTO SCROLL AFTER 1.5s — VERY SLOW, stops at top of video */
 let allowAutoScroll = true;
-
 ["wheel","touchstart","keydown","mousedown"].forEach(evt=>{
   window.addEventListener(evt,()=>allowAutoScroll=false,{ once:true });
 });
@@ -576,9 +431,7 @@ function smoothScrollTo(targetY, duration){
   let start;
 
   function ease(t){
-    return t < 0.5
-      ? 2 * t * t
-      : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2;
   }
 
   function step(timestamp){
@@ -586,10 +439,7 @@ function smoothScrollTo(targetY, duration){
     const elapsed = timestamp - start;
     const progress = Math.min(elapsed / duration, 1);
 
-    window.scrollTo(
-      0,
-      startY + diff * ease(progress)
-    );
+    window.scrollTo(0, startY + diff * ease(progress));
 
     if(elapsed < duration && allowAutoScroll){
       requestAnimationFrame(step);
@@ -602,28 +452,20 @@ function smoothScrollTo(targetY, duration){
 window.addEventListener("load",()=>{
   setTimeout(()=>{
     if(!allowAutoScroll) return;
-
     const target = document.getElementById("video");
-
     if(!target) return;
 
-    const y =
-      target.getBoundingClientRect().top +
-      window.scrollY;
-
-    smoothScrollTo(y, 16000); // ← VERY SLOW (was ~2s, now 16s)
+    const y = target.getBoundingClientRect().top + window.scrollY;
+    smoothScrollTo(y, 16000);
   },1500);
 });
 
-
 /* VIDEO BAR PLAYLIST (2 videos) */
 const videoBar = document.getElementById("videoBar");
-
 const videoPlaylist = [
   "assets/video/video-bar.mp4",
   "assets/video/video-bar_02.mp4"
 ];
-
 let videoIndex = 0;
 
 videoBar.addEventListener("ended", () => {
@@ -633,13 +475,140 @@ videoBar.addEventListener("ended", () => {
   videoBar.play().catch(()=>{});
 });
 
+/* TRANSFORM-BASED MARQUEE (slides reliably) */
+function initTransformMarquee({marqueeEl, trackEl, speedPxPerSec=20}){
+  if(!marqueeEl || !trackEl) return;
 
+  const originals = Array.from(trackEl.children);
+  originals.forEach(n => trackEl.appendChild(n.cloneNode(true)));
 
+  let offset = 0;
+  let dragging = false;
+  let dragStartX = 0;
+  let dragStartOffset = 0;
 
+  marqueeEl.addEventListener("pointerdown", (e)=>{
+    dragging = true;
+    marqueeEl.classList.add("dragging");
+    marqueeEl.setPointerCapture?.(e.pointerId);
+    dragStartX = e.clientX;
+    dragStartOffset = offset;
+  });
 
+  marqueeEl.addEventListener("pointermove", (e)=>{
+    if(!dragging) return;
+    const dx = e.clientX - dragStartX;
+    offset = dragStartOffset + dx;
+  });
 
+  const endDrag = ()=>{
+    dragging = false;
+    marqueeEl.classList.remove("dragging");
+  };
+  marqueeEl.addEventListener("pointerup", endDrag);
+  marqueeEl.addEventListener("pointercancel", endDrag);
+  marqueeEl.addEventListener("pointerleave", endDrag);
+
+  const halfWidth = ()=> trackEl.scrollWidth / 2;
+
+  const normalize = ()=>{
+    const half = halfWidth();
+    if(half <= 0) return;
+    while(offset <= -half) offset += half;
+    while(offset > 0) offset -= half;
+  };
+
+  const imgs = trackEl.querySelectorAll("img");
+  let remaining = imgs.length;
+
+  const start = ()=>{
+    let last = performance.now();
+    const step = (now)=>{
+      const dt = (now - last)/1000;
+      last = now;
+
+      if(!dragging){
+        offset -= speedPxPerSec * dt;
+      }
+
+      normalize();
+      trackEl.style.transform = `translate3d(${offset}px,0,0)`;
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+
+  imgs.forEach(img=>{
+    if(img.complete) remaining--;
+    else{
+      img.addEventListener("load", ()=>{ remaining--; if(remaining===0) start(); }, {once:true});
+      img.addEventListener("error", ()=>{ remaining--; if(remaining===0) start(); }, {once:true});
+    }
+  });
+  if(remaining === 0) start();
+
+  window.addEventListener("resize", ()=>{
+    normalize();
+    trackEl.style.transform = `translate3d(${offset}px,0,0)`;
+  });
+}
+
+initTransformMarquee({
+  marqueeEl: document.getElementById("marquee-design"),
+  trackEl: document.getElementById("track-design"),
+  speedPxPerSec: 22
+});
+
+initTransformMarquee({
+  marqueeEl: document.getElementById("marquee-elements"),
+  trackEl: document.getElementById("track-elements"),
+  speedPxPerSec: 16
+});
+
+/* ✅ TAP-BASED LIGHTBOX (works even with drag + transform) */
+(() => {
+  const lb = document.getElementById("lightbox");
+  const lbImg = document.getElementById("lightboxImg");
+  if(!lb || !lbImg) return;
+
+  let startX = 0, startY = 0, startTime = 0;
+  let targetImg = null;
+
+  document.addEventListener("pointerdown", (e) => {
+    const img = e.target.closest(".marqueeTrack img");
+    if(!img) return;
+
+    startX = e.clientX;
+    startY = e.clientY;
+    startTime = Date.now();
+    targetImg = img;
+  }, {passive:true});
+
+  document.addEventListener("pointerup", (e) => {
+    if(!targetImg) return;
+
+    const dx = Math.abs(e.clientX - startX);
+    const dy = Math.abs(e.clientY - startY);
+    const dt = Date.now() - startTime;
+
+    // tap only (not drag)
+    if(dx < 10 && dy < 10 && dt < 350){
+      lbImg.src = targetImg.src;
+      lbImg.alt = targetImg.alt || "Gallery image";
+      lb.style.display = "flex";
+      lb.setAttribute("aria-hidden","false");
+    }
+
+    targetImg = null;
+  }, {passive:true});
+
+  lb.addEventListener("pointerdown", () => {
+    lb.style.display = "none";
+    lb.setAttribute("aria-hidden","true");
+    lbImg.src = "";
+  });
+})();
 </script>
 
 </body>
 </html>
-
