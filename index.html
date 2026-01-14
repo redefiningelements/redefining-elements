@@ -47,7 +47,7 @@ a{color:inherit;text-decoration:none}
 }
 
 .logo{
-  width:220px;
+  width:165px;
   max-width:70vw;
   height:auto;
 }
@@ -114,6 +114,19 @@ a{color:inherit;text-decoration:none}
   padding:96px 24px;
 }
 
+/* tighter spacing BETWEEN the two galleries only */
+.wrap--gallery2{
+  padding-top:32px;
+}
+
+/* slightly tighten the bottom of Design section */
+.wrap--gallery1{
+  padding-top:82px;
+  padding-bottom:38px;
+}
+
+}
+
 h2{
   font-size:22px;
   margin-bottom:12px;
@@ -152,9 +165,9 @@ h2{
   display:block;
 }
 
-/* GALLERY */
+/* GALLERIES (SCROLL-BASED, MANUAL + AUTO) */
 .marquee{
-  margin-top:32px;
+  margin-top:18px;
   overflow-x:auto;
   overflow-y:hidden;
   border-radius:16px;
@@ -207,12 +220,18 @@ h2{
 
 .marqueeTrack img{
   width:320px;
-  height:200px;
+  height:200px;              /* 16:10 */
   border-radius:14px;
   border:1px solid rgba(255,255,255,.1);
   object-fit:cover;
   display:block;
   cursor:pointer;
+}
+
+/* 25% smaller Elements bar */
+.marquee.marquee--small .marqueeTrack img{
+  width:240px;
+  height:150px;
 }
 
 /* LIGHTBOX */
@@ -250,9 +269,19 @@ footer{
   .hero h1{font-size:34px}
   .services{grid-template-columns:1fr}
   .video-bar video{height:32vh}
+
+  .wrap{padding:72px 18px}
+  .wrap--gallery1{padding-bottom:34px}
+  .wrap--gallery2{padding-top:22px}
+
   .marqueeTrack img{
     width:260px;
     height:162px;
+  }
+
+  .marquee.marquee--small .marqueeTrack img{
+    width:195px;
+    height:122px;
   }
 }
 </style>
@@ -281,11 +310,18 @@ footer{
 </section>
 
 <!-- VIDEO BAR -->
-<section class="video-bar">
-  <video autoplay muted loop playsinline preload="metadata" poster="assets/video/poster.jpg">
+<section class="video-bar" id="video">
+  <video
+    id="videoBar"
+    autoplay
+    muted
+    playsinline
+    preload="metadata"
+    poster="assets/video/poster.jpg">
     <source src="assets/video/video-bar.mp4" type="video/mp4">
   </video>
 </section>
+
 
 <!-- SERVICES -->
 <section class="wrap" id="services">
@@ -329,18 +365,59 @@ footer{
   </div>
 </section>
 
-<!-- GALLERY -->
-<section class="wrap" id="gallery">
-  <h2>Gallery</h2>
+<!-- GALLERY 1 (Design) -->
+<section class="wrap wrap--gallery1" id="gallery-design">
+  <h2>Design</h2>
 
-  <div class="marquee" id="marquee">
-    <div class="marqueeTrack" id="marqueeTrack">
-      <img src="assets/gallery/gallery-01.jpg" alt="Finished outdoor project">
-      <img src="assets/gallery/gallery-02.jpg" alt="Finished outdoor project">
-      <img src="assets/gallery/gallery-03.jpg" alt="Finished outdoor project">
+  <div class="marquee" id="marquee-design">
+    <div class="marqueeTrack" id="track-design">
+      <img src="assets/gallery/gallery-01.jpg" alt="3D outdoor design rendering">
+      <img src="assets/gallery/gallery-02.jpg" alt="3D outdoor design rendering">
+      <img src="assets/gallery/gallery-03.jpg" alt="3D outdoor design rendering">
       <img src="assets/gallery/gallery-04.jpg" alt="3D outdoor design rendering">
       <img src="assets/gallery/gallery-05.jpg" alt="3D outdoor design rendering">
       <img src="assets/gallery/gallery-06.jpg" alt="3D outdoor design rendering">
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY 2 (Elements, 31 photos; elements_01.png then elements_02.jpg ... elements_31.jpg) -->
+<section class="wrap wrap--gallery2" id="elements">
+  <h2>Elements</h2>
+
+  <div class="marquee marquee--small" id="marquee-elements">
+    <div class="marqueeTrack" id="track-elements">
+      <img src="assets/elements/elements_01.png" alt="Outdoor element photo 01">
+      <img src="assets/elements/elements_02.jpg" alt="Outdoor element photo 02">
+      <img src="assets/elements/elements_03.jpg" alt="Outdoor element photo 03">
+      <img src="assets/elements/elements_04.jpg" alt="Outdoor element photo 04">
+      <img src="assets/elements/elements_05.jpg" alt="Outdoor element photo 05">
+      <img src="assets/elements/elements_06.jpg" alt="Outdoor element photo 06">
+      <img src="assets/elements/elements_07.jpg" alt="Outdoor element photo 07">
+      <img src="assets/elements/elements_08.jpg" alt="Outdoor element photo 08">
+      <img src="assets/elements/elements_09.jpg" alt="Outdoor element photo 09">
+      <img src="assets/elements/elements_10.jpg" alt="Outdoor element photo 10">
+      <img src="assets/elements/elements_11.jpg" alt="Outdoor element photo 11">
+      <img src="assets/elements/elements_12.jpg" alt="Outdoor element photo 12">
+      <img src="assets/elements/elements_13.jpg" alt="Outdoor element photo 13">
+      <img src="assets/elements/elements_14.jpg" alt="Outdoor element photo 14">
+      <img src="assets/elements/elements_15.jpg" alt="Outdoor element photo 15">
+      <img src="assets/elements/elements_16.jpg" alt="Outdoor element photo 16">
+      <img src="assets/elements/elements_17.jpg" alt="Outdoor element photo 17">
+      <img src="assets/elements/elements_18.jpg" alt="Outdoor element photo 18">
+      <img src="assets/elements/elements_19.jpg" alt="Outdoor element photo 19">
+      <img src="assets/elements/elements_20.jpg" alt="Outdoor element photo 20">
+      <img src="assets/elements/elements_21.jpg" alt="Outdoor element photo 21">
+      <img src="assets/elements/elements_22.jpg" alt="Outdoor element photo 22">
+      <img src="assets/elements/elements_23.jpg" alt="Outdoor element photo 23">
+      <img src="assets/elements/elements_24.jpg" alt="Outdoor element photo 24">
+      <img src="assets/elements/elements_25.jpg" alt="Outdoor element photo 25">
+      <img src="assets/elements/elements_26.jpg" alt="Outdoor element photo 26">
+      <img src="assets/elements/elements_27.jpg" alt="Outdoor element photo 27">
+      <img src="assets/elements/elements_28.jpg" alt="Outdoor element photo 28">
+      <img src="assets/elements/elements_29.jpg" alt="Outdoor element photo 29">
+      <img src="assets/elements/elements_30.jpg" alt="Outdoor element photo 30">
+      <img src="assets/elements/elements_31.jpg" alt="Outdoor element photo 31">
     </div>
   </div>
 </section>
@@ -357,19 +434,15 @@ footer{
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
-/* Duplicate images once for seamless loop */
-(() => {
-  const track = document.getElementById("marqueeTrack");
-  if(!track) return;
-  const originals = Array.from(track.children);
-  originals.forEach(img => track.appendChild(img.cloneNode(true)));
-})();
+function duplicateOnce(trackEl){
+  const originals = Array.from(trackEl.children);
+  originals.forEach(node => trackEl.appendChild(node.cloneNode(true)));
+}
 
-/* Auto-scroll using scrollLeft + seamless wrap (no end bounce) */
-(() => {
-  const marquee = document.getElementById("marquee");
-  const track = document.getElementById("marqueeTrack");
-  if(!marquee || !track) return;
+function initMarquee({ marqueeEl, trackEl, speedPxPerSec = 20 }){
+  if(!marqueeEl || !trackEl) return;
+
+  duplicateOnce(trackEl);
 
   let paused = false;
   let pauseTimer = null;
@@ -381,95 +454,102 @@ document.getElementById("year").textContent = new Date().getFullYear();
   };
 
   const wrapScroll = () => {
-    const half = track.scrollWidth / 2;
-    if (half <= 0) return;
+    const half = trackEl.scrollWidth / 2;
+    if(half <= 0) return;
 
-    if (marquee.scrollLeft <= 0) {
-      marquee.scrollLeft += half;
+    if(marqueeEl.scrollLeft <= 0){
+      marqueeEl.scrollLeft += half;
       return;
     }
-    if (marquee.scrollLeft >= half) {
-      marquee.scrollLeft -= half;
+    if(marqueeEl.scrollLeft >= half){
+      marqueeEl.scrollLeft -= half;
     }
   };
 
   ["pointerdown","wheel","touchstart","keydown"].forEach(evt => {
-    marquee.addEventListener(evt, () => pauseFor(2200), {passive:true});
+    marqueeEl.addEventListener(evt, () => pauseFor(2200), {passive:true});
   });
 
-  marquee.addEventListener("scroll", () => {
-    if (marquee._wrapping) return;
-    marquee._wrapping = true;
+  marqueeEl.addEventListener("scroll", () => {
+    if(marqueeEl._wrapping) return;
+    marqueeEl._wrapping = true;
     wrapScroll();
-    marquee._wrapping = false;
+    marqueeEl._wrapping = false;
   }, {passive:true});
 
-  let last = performance.now();
-  const speed = 20; // px per second
-
-  const step = (now) => {
-    const dt = (now - last) / 1000;
-    last = now;
-
-    if(!paused){
-      marquee.scrollLeft += speed * dt;
-      wrapScroll();
-    }
-    requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-
-  marquee._pauseFor = pauseFor;
-})();
-
-/* Click + drag to scroll (desktop mouse) */
-(() => {
-  const marquee = document.getElementById("marquee");
-  if(!marquee) return;
-
-  let isDown = false;
-  let startX = 0;
-  let startScrollLeft = 0;
-
-  marquee.addEventListener("mousedown", (e) => {
+  // mouse drag to scroll
+  let isDown=false, startX=0, startScrollLeft=0;
+  marqueeEl.addEventListener("mousedown", (e) => {
     if(e.button !== 0) return;
     isDown = true;
-    marquee.classList.add("dragging");
+    marqueeEl.classList.add("dragging");
     startX = e.pageX;
-    startScrollLeft = marquee.scrollLeft;
-    if (typeof marquee._pauseFor === "function") marquee._pauseFor(3000);
+    startScrollLeft = marqueeEl.scrollLeft;
+    pauseFor(3000);
     e.preventDefault();
   });
 
   window.addEventListener("mousemove", (e) => {
     if(!isDown) return;
     const dx = e.pageX - startX;
-    marquee.scrollLeft = startScrollLeft - dx;
+    marqueeEl.scrollLeft = startScrollLeft - dx;
+    wrapScroll();
   });
 
   window.addEventListener("mouseup", () => {
     if(!isDown) return;
     isDown = false;
-    marquee.classList.remove("dragging");
+    marqueeEl.classList.remove("dragging");
   });
 
-  marquee.addEventListener("mouseleave", () => {
+  marqueeEl.addEventListener("mouseleave", () => {
     if(!isDown) return;
     isDown = false;
-    marquee.classList.remove("dragging");
+    marqueeEl.classList.remove("dragging");
   });
-})();
 
-/* Lightbox */
+  // auto scroll loop
+  let last = performance.now();
+  const step = (now) => {
+    const dt = (now - last) / 1000;
+    last = now;
+
+    if(!paused){
+      marqueeEl.scrollLeft += speedPxPerSec * dt;
+      wrapScroll();
+    }
+    requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+
+  marqueeEl._pauseFor = pauseFor;
+}
+
+initMarquee({
+  marqueeEl: document.getElementById("marquee-design"),
+  trackEl: document.getElementById("track-design"),
+  speedPxPerSec: 20
+});
+
+initMarquee({
+  marqueeEl: document.getElementById("marquee-elements"),
+  trackEl: document.getElementById("track-elements"),
+  speedPxPerSec: 16
+});
+
+/* Lightbox (works for both galleries) */
 (() => {
   const lb = document.getElementById("lightbox");
   const lbImg = document.getElementById("lightboxImg");
-  const track = document.getElementById("marqueeTrack");
-  if(!lb || !lbImg || !track) return;
+  if(!lb || !lbImg) return;
 
-  track.addEventListener("click", (e) => {
-    const img = e.target.closest("img");
+  document.addEventListener("click", (e) => {
+    const img = e.target.closest(".marqueeTrack img");
     if(!img) return;
+
+    const marquee = img.closest(".marquee");
+    if(marquee && typeof marquee._pauseFor === "function") marquee._pauseFor(3500);
+
     lbImg.src = img.src;
     lbImg.alt = img.alt || "Gallery image";
     lb.style.display = "flex";
@@ -482,6 +562,82 @@ document.getElementById("year").textContent = new Date().getFullYear();
     lbImg.src = "";
   });
 })();
+
+/* AUTO SCROLL AFTER 1.5s — EXTRA SLOW (90% slower) */
+let allowAutoScroll = true;
+
+["wheel","touchstart","keydown","mousedown"].forEach(evt=>{
+  window.addEventListener(evt,()=>allowAutoScroll=false,{ once:true });
+});
+
+function smoothScrollTo(targetY, duration){
+  const startY = window.scrollY;
+  const diff = targetY - startY;
+  let start;
+
+  function ease(t){
+    return t < 0.5
+      ? 2 * t * t
+      : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  }
+
+  function step(timestamp){
+    if(!start) start = timestamp;
+    const elapsed = timestamp - start;
+    const progress = Math.min(elapsed / duration, 1);
+
+    window.scrollTo(
+      0,
+      startY + diff * ease(progress)
+    );
+
+    if(elapsed < duration && allowAutoScroll){
+      requestAnimationFrame(step);
+    }
+  }
+
+  requestAnimationFrame(step);
+}
+
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    if(!allowAutoScroll) return;
+
+    const target = document.getElementById("video");
+
+    if(!target) return;
+
+    const y =
+      target.getBoundingClientRect().top +
+      window.scrollY;
+
+    smoothScrollTo(y, 16000); // ← VERY SLOW (was ~2s, now 16s)
+  },1500);
+});
+
+
+/* VIDEO BAR PLAYLIST (2 videos) */
+const videoBar = document.getElementById("videoBar");
+
+const videoPlaylist = [
+  "assets/video/video-bar.mp4",
+  "assets/video/video-bar_02.mp4"
+];
+
+let videoIndex = 0;
+
+videoBar.addEventListener("ended", () => {
+  videoIndex = (videoIndex + 1) % videoPlaylist.length;
+  videoBar.src = videoPlaylist[videoIndex];
+  videoBar.load();
+  videoBar.play().catch(()=>{});
+});
+
+
+
+
+
+
 </script>
 
 </body>
