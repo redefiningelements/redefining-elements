@@ -7,6 +7,9 @@
 <title>Redefining Elements — Outdoor Design</title>
 <meta name="description" content="Redefining Elements — Conceptual Outdoor Design. Design · Build · Connect.">
 
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+
+
 <style>
 :root{
   --bg:#000;
@@ -27,7 +30,10 @@ body{
 
 a{color:inherit;text-decoration:none}
 
-/* HERO */
+/* =========================
+   HERO
+   ========================= */
+
 .hero{
   height:100vh;
   display:flex;
@@ -47,7 +53,7 @@ a{color:inherit;text-decoration:none}
 }
 
 .logo{
-  width:165px; /* logo size -25% */
+  width:165px;
   max-width:70vw;
   height:auto;
 }
@@ -72,7 +78,10 @@ a{color:inherit;text-decoration:none}
   font-size:18px;
 }
 
-/* SCROLL INDICATOR */
+/* =========================
+   SCROLL INDICATOR
+   ========================= */
+
 .scrollIndicator{
   position:absolute;
   bottom:32px;
@@ -80,17 +89,132 @@ a{color:inherit;text-decoration:none}
   animation:scrollFloat 4.5s ease-in-out infinite;
   z-index:3;
 }
+
 .scrollIndicator img{
   width:56px;
   height:auto;
   display:block;
 }
+
 @keyframes scrollFloat{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(10px)}
 }
 
-/* VIDEO BAR */
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width:900px){
+  .hero h1{font-size:34px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HERO
+     ========================= -->
+
+<section class="hero">
+  <div class="heroInner">
+    <img src="assets/images/logo.png" alt="Redefining Elements logo" class="logo">
+
+    <div class="slogan">DESIGN · BUILD · CONNECT</div>
+
+    <h1>Re-envision your outdoor space.</h1>
+
+    <p>
+      We transform underutilized outdoor areas into intentional, buildable environments
+      through thoughtful design, budget awareness, and 3D conceptual visualization.
+    </p>
+  </div>
+
+  <div class="scrollIndicator" aria-hidden="true">
+    <img src="assets/images/triangle.svg" alt="">
+  </div>
+</section>
+
+<!-- =========================
+     HERO AUTO-SCROLL
+     ========================= -->
+
+<script>
+/* AUTO SCROLL AFTER 1.5s — DOWN ONLY (HERO → VIDEO) */
+
+let allowAutoScroll = true;
+
+["wheel","touchstart","keydown","mousedown"].forEach(evt=>{
+  window.addEventListener(evt,()=>allowAutoScroll=false,{ once:true });
+});
+
+function smoothScrollTo(targetY, duration){
+  const startY = window.scrollY;
+  const diff = targetY - startY;
+  if(diff <= 0) return;
+
+  let start;
+  function ease(t){
+    return t < 0.5
+      ? 2*t*t
+      : 1 - Math.pow(-2*t+2,2)/2;
+  }
+
+  function step(ts){
+    if(!start) start = ts;
+    const time = ts - start;
+    const p = Math.min(time / duration, 1);
+    window.scrollTo(0, startY + diff * ease(p));
+    if(time < duration && allowAutoScroll) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    if(!allowAutoScroll) return;
+
+    const video = document.getElementById("video");
+    if(!video) return;
+
+    const videoY = video.getBoundingClientRect().top + window.scrollY;
+    if(window.scrollY >= videoY) return;
+
+    smoothScrollTo(videoY, 16000);
+  },1500);
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- =========================================================
+     PART 2 — VIDEO · SERVICES · AUTO GALLERIES (FIXED + LOCKED)
+     ========================================================= -->
+
+<style>
 .video-bar{
   width:100%;
   overflow:hidden;
@@ -103,2008 +227,728 @@ a{color:inherit;text-decoration:none}
   display:block;
 }
 
-/* WRAP */
 .wrap{
-  max-width:var(--max);
+  max-width:1100px;
   margin:0 auto;
   padding:96px 24px;
 }
 
-h2{
-  font-size:22px;
-  margin:0 0 12px;
-}
-
-/* SERVICES */
 .services{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;                /* reduced gap between columns */
-  margin-top:40px;
-  align-items:start;
+  gap:32px;
+  margin:48px 0 120px;
 }
 
 .service{
-  padding-bottom:0;
+  text-align:center;
 }
-
-/* lock consistent “top stack” height so all galleries start aligned */
 .serviceTop{
-  min-height:270px;
   display:flex;
   flex-direction:column;
+  align-items:center;
 }
-
-.service h3{
-  font-size:15px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  margin:16px 0 8px;
-}
-
-.service p{
-  font-size:14px;
-  color:var(--muted);
-  margin:0;
-}
-
 .icon{
   width:120px;
   height:120px;
+  margin-bottom:18px;
 }
 .icon img{
   width:100%;
   height:100%;
   object-fit:contain;
-  display:block;
 }
-
-/* label above each gallery */
-.subLabel{
-  margin-top:10px;
-  font-size:12px;
-  letter-spacing:.32em;
+.service h3{
+  font-size:15px;
+  letter-spacing:.14em;
   text-transform:uppercase;
-  color:rgba(255,255,255,.55);
+  margin:6px 0 10px;
+}
+.service p{
+  font-size:14px;
+  color:#9ca3af;
+  max-width:300px;
+  margin:0 auto;
 }
 
-/* VERTICAL LOOP GALLERY */
+.galleryGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:32px;
+}
+
+.subLabel{
+  font-size:13px;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:#9ca3af;
+  margin-bottom:18px;
+}
+
 .vmarquee{
-  margin-top:10px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.08);
-  background:rgba(255,255,255,.02);
-  padding:12px;
   position:relative;
+  height:520px;
   overflow:hidden;
-
-  height:360px;            /* same height in all 3 columns */
-  cursor:grab;
-  user-select:none;
-  touch-action:none;
-}
-
-.vmarquee.dragging{cursor:grabbing}
-
-.vfadeTop,
-.vfadeBottom{
-  position:absolute;
-  left:0; right:0;
-  height:44px;
-  z-index:2;
-  pointer-events:none;
-}
-.vfadeTop{
-  top:0;
-  background:linear-gradient(to bottom, #000, transparent);
-}
-.vfadeBottom{
-  bottom:0;
-  background:linear-gradient(to top, #000, transparent);
+  touch-action:pan-y;
 }
 
 .vviewport{
-  position:relative;
-  z-index:1;
-  height:100%;
-  overflow:hidden;
+  position:absolute;
+  inset:0;
 }
 
 .vtrack{
   display:flex;
   flex-direction:column;
-  gap:12px;
-  width:100%;
+  gap:16px;
   will-change:transform;
-  transform:translate3d(0,0,0);
 }
 
-/* unified preview size (all 3 galleries identical) */
 .vtrack img{
   width:100%;
-  height:210px;           /* fixed preview height */
-  border-radius:14px;
-  border:1px solid rgba(255,255,255,.1);
-  object-fit:cover;       /* crops long/tall plans nicely */
-  object-position:center;
+  border-radius:8px;
   display:block;
   cursor:pointer;
+  user-select:none;
+  -webkit-user-drag:none;
 }
 
-/* LIGHTBOX */
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.88);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  z-index:9999;
-}
-
-.lbStage{
-  width:min(1100px, 96vw);
-  height:90vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.lightbox img{
-  max-width:100%;
-  max-height:100%;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.15);
-  background:#000;
-  object-fit:contain;
-
-  transform:translate3d(0,0,0) scale(1);
-  transform-origin:center center;
-}
-
-/* Plans-only zoom mode */
-.lightbox.zoomable img{ cursor:grab; }
-.lightbox.zoomable.dragging img{ cursor:grabbing; }
-
-/* Close button */
-.lbClose{
+.vfadeTop,
+.vfadeBottom{
   position:absolute;
-  top:18px;
-  right:18px;
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.25);
-  background:rgba(0,0,0,.6);
-  color:#fff;
-  font-size:22px;
-  line-height:1;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:10000;
+  left:0;
+  right:0;
+  height:60px;
+  pointer-events:none;
+  z-index:2;
 }
-.lbClose:hover{ background:rgba(255,255,255,.15); }
-
-/* FOOTER */
-footer{
-  margin-top:160px;
-  padding-bottom:40px;
-  text-align:center;
-  font-size:13px;
-  color:var(--muted);
+.vfadeTop{
+  top:0;
+  background:linear-gradient(to bottom,#000,transparent);
+}
+.vfadeBottom{
+  bottom:0;
+  background:linear-gradient(to top,#000,transparent);
 }
 
-/* MOBILE */
 @media (max-width:900px){
-  .hero h1{font-size:34px}
-  .services{grid-template-columns:1fr; gap:26px;}
+  .services{grid-template-columns:1fr;gap:48px}
+  .galleryGrid{grid-template-columns:1fr;gap:80px}
   .video-bar video{height:32vh}
   .wrap{padding:72px 18px}
-  .serviceTop{min-height:auto;}
-  .vmarquee{height:330px;}
-  .vtrack img{height:200px;}
 }
-
-/* =========================================================
-   ESTIMATOR (ADD-ON ONLY — does not change baseline sections)
-   ========================================================= */
-:root{
-  --eg-panel:#121212;
-  --eg-bot:#1f2937;
-  --eg-user:#2563eb;
-  --eg-text:#f5f5f5;
-  --eg-muted:#9ca3af;
-  --eg-line:rgba(255,255,255,.10);
-  --eg-shadow:0 18px 55px rgba(0,0,0,.55);
-}
-
-/* Floating launcher (hidden until near bottom) */
-.eg-launcher{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:12000;
-  display:flex;
-  align-items:center;
-  gap:10px;
-
-  opacity:0;
-  pointer-events:none;
-  transform: translateY(10px);
-  transition: opacity .25s ease, transform .25s ease;
-}
-.eg-launcher.show{
-  opacity:1;
-  pointer-events:auto;
-  transform: translateY(0);
-}
-.eg-pill{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 14px;
-  border-radius:999px;
-  background:rgba(255,255,255,.06);
-  border:1px solid var(--eg-line);
-  box-shadow:var(--eg-shadow);
-  backdrop-filter: blur(10px);
-}
-.eg-dot{
-  width:10px;height:10px;border-radius:999px;
-  background:var(--eg-user);
-  box-shadow:0 0 0 6px rgba(37,99,235,.15);
-}
-.eg-pillText{font-size:13px; line-height:1.1}
-.eg-pillText .sub{display:block;font-size:12px;color:var(--eg-muted);margin-top:2px}
-
-.eg-btn{
-  border:none; cursor:pointer;
-  padding:12px 16px;
-  border-radius:999px;
-  background:var(--eg-user);
-  color:#fff;
-  font-weight:700;
-  box-shadow:var(--eg-shadow);
-}
-
-/* Overlay + modal */
-.eg-overlay{
-  position:fixed; inset:0;
-  z-index:11998;
-  background:rgba(0,0,0,.45);
-  backdrop-filter: blur(2px);
-  display:none;
-}
-.eg-overlay.show{display:block}
-
-.eg-modal{
-  position:fixed;
-  right:18px;
-  bottom:84px;
-  z-index:12001;
-  width:min(480px, calc(100vw - 36px));
-  border-radius:18px;
-  overflow:hidden;
-  background:var(--eg-panel);
-  border:1px solid var(--eg-line);
-  box-shadow:var(--eg-shadow);
-  transform: translateY(10px);
-  opacity:0;
-  pointer-events:none;
-  transition: opacity .18s ease, transform .18s ease;
-}
-.eg-modal.show{
-  transform: translateY(0);
-  opacity:1;
-  pointer-events:auto;
-}
-
-.eg-header{
-  padding:12px 14px;
-  border-bottom:1px solid var(--eg-line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-.eg-title{display:flex;flex-direction:column;gap:2px}
-.eg-title strong{font-size:13px;letter-spacing:.2px}
-.eg-title span{font-size:12px;color:var(--eg-muted)}
-
-.eg-x{
-  cursor:pointer;
-  border:1px solid var(--eg-line);
-  background:rgba(255,255,255,.06);
-  color:var(--eg-text);
-  width:34px;height:34px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
-  font-size:16px;
-}
-
-/* taller: ~6 messages visible */
-.eg-body{
-  padding:14px;
-  height:260px;
-  overflow:auto;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.eg-msg{
-  max-width:92%;
-  padding:10px 12px;
-  border-radius:14px;
-  font-size:13px;
-  line-height:1.35;
-  white-space:pre-wrap;
-}
-.eg-bot{align-self:flex-start;background:var(--eg-bot);border-bottom-left-radius:4px}
-.eg-user{align-self:flex-end;background:var(--eg-user);border-bottom-right-radius:4px}
-
-.eg-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:8px;
-}
-.eg-chip{
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(255,255,255,.06);
-  color:var(--eg-text);
-  font-size:12px;
-  padding:8px 10px;
-  border-radius:999px;
-  cursor:pointer;
-  user-select:none;
-}
-.eg-chip:hover{ background:rgba(255,255,255,.10); }
-.eg-chip.selected{
-  background:rgba(37,99,235,.25);
-  border-color:rgba(37,99,235,.55);
-}
-
-.eg-primary{
-  border:1px solid rgba(255,255,255,.10);
-  background:var(--eg-user);
-  color:#fff;
-  font-weight:700;
-  padding:9px 12px;
-  border-radius:999px;
-  cursor:pointer;
-}
-
-.eg-input{
-  padding:12px;
-  border-top:1px solid var(--eg-line);
-  display:flex;
-  gap:10px;
-  background:rgba(0,0,0,.15);
-}
-.eg-input input{
-  flex:1;
-  padding:11px 12px;
-  border-radius:999px;
-  border:1px solid var(--eg-line);
-  outline:none;
-  background:#0f0f0f;
-  color:var(--eg-text);
-  font-size:13px;
-}
-.eg-input button{
-  padding:11px 14px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,.10);
-  background:var(--eg-user);
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-}
-.eg-input button:disabled{opacity:.55;cursor:not-allowed}
 </style>
-</head>
 
-<body>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="heroInner">
-    <img src="assets/images/logo.png" alt="Redefining Elements logo" class="logo">
-    <div class="slogan">DESIGN · BUILD · CONNECT</div>
-
-    <h1>Re-envision your outdoor space.</h1>
-    <p>
-      We transform underutilized outdoor areas into intentional, buildable environments
-      through thoughtful design, budget awareness, and 3D conceptual visualization.
-    </p>
-  </div>
-
-  <div class="scrollIndicator" aria-hidden="true">
-    <img src="assets/images/triangle.svg" alt="">
-  </div>
-</section>
-
-<!-- VIDEO BAR -->
 <section class="video-bar" id="video">
-  <video
-    id="videoBar"
-    autoplay
-    muted
-    playsinline
-    preload="metadata"
-    poster="assets/video/poster.jpg">
+  <video autoplay muted playsinline>
+
+
     <source src="assets/video/video-bar.mp4" type="video/mp4">
   </video>
 </section>
 
-<!-- SERVICES -->
-<section class="wrap" id="services">
-  <h2>Services</h2>
+<script>
+(() => {
+  const video = document.querySelector(".video-bar video");
+  if(!video) return;
+
+  const playlist = [
+    "assets/video/video-bar.mp4",
+    "assets/video/video-bar_02.mp4"
+  ];
+
+  let index = 0;
+
+  video.src = playlist[index];
+  video.load();
+
+  video.addEventListener("ended", () => {
+    index = (index + 1) % playlist.length;
+    video.src = playlist[index];
+    video.load();
+    video.play();
+  });
+})();
+</script>
+
+
+<section class="wrap">
 
   <div class="services">
-
-    <!-- DESIGN -->
     <div class="service">
       <div class="serviceTop">
-        <div class="icon"><img src="assets/images/triangle.svg" alt="Design"></div>
+        <div class="icon"><img src="assets/images/triangle.svg"></div>
         <h3>Design</h3>
-        <p>Experience the design in 3D before it exists. From vision to reality—without surprises.</p>
+        <p>Experience the design in 3D before it exists.</p>
       </div>
+    </div>
 
+    <div class="service">
+      <div class="serviceTop">
+        <div class="icon"><img src="assets/images/roots.svg"></div>
+        <h3>Build</h3>
+        <p>Build-ready drawings with clear dimensions and materials.</p>
+      </div>
+    </div>
+
+    <div class="service">
+      <div class="serviceTop">
+        <div class="icon"><img src="assets/images/circle.svg"></div>
+        <h3>Connect</h3>
+        <p>Connecting you with qualified professionals.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="galleryGrid">
+
+    <!-- DESIGN -->
+    <div>
       <div class="subLabel">Design</div>
-
       <div class="vmarquee" id="vm-design">
-        <div class="vfadeTop"></div><div class="vfadeBottom"></div>
+        <div class="vfadeTop"></div>
+        <div class="vfadeBottom"></div>
         <div class="vviewport">
           <div class="vtrack" id="vt-design">
-            <img src="assets/gallery/gallery-01.jpg" alt="Design rendering 01">
-            <img src="assets/gallery/gallery-02.jpg" alt="Design rendering 02">
-            <img src="assets/gallery/gallery-03.jpg" alt="Design rendering 03">
-            <img src="assets/gallery/gallery-04.jpg" alt="Design rendering 04">
-            <img src="assets/gallery/gallery-05.jpg" alt="Design rendering 05">
-            <img src="assets/gallery/gallery-06.jpg" alt="Design rendering 06">
+            <img src="assets/gallery/gallery-01.jpg">
+            <img src="assets/gallery/gallery-02.jpg">
+            <img src="assets/gallery/gallery-03.jpg">
+            <img src="assets/gallery/gallery-04.jpg">
           </div>
         </div>
       </div>
     </div>
 
     <!-- PLANS -->
-    <div class="service">
-      <div class="serviceTop">
-        <div class="icon"><img src="assets/images/roots.svg" alt="Plans"></div>
-        <h3>Build</h3>
-        <p>Build-ready drawings with dimensions, materials, and elevations—created to support clear, reliable cost estimates.</p>
-      </div>
-
+    <div>
       <div class="subLabel">Plans</div>
-
       <div class="vmarquee" id="vm-plans">
-        <div class="vfadeTop"></div><div class="vfadeBottom"></div>
+        <div class="vfadeTop"></div>
+        <div class="vfadeBottom"></div>
         <div class="vviewport">
-          <div class="vtrack" id="vt-plans">
-            <img src="assets/plans/plans_01.png" alt="Plan 01">
-            <img src="assets/plans/plans_02.png" alt="Plan 02">
-            <img src="assets/plans/plans_03.png" alt="Plan 03">
-            <img src="assets/plans/plans_04.png" alt="Plan 04">
-            <img src="assets/plans/plans_05.png" alt="Plan 05">
-            <img src="assets/plans/plans_06.png" alt="Plan 06">
-          </div>
+         
+
+
+ <div class="vtrack" id="vt-plans">
+  <img src="assets/plans/acover.png" data-plan="acover">
+  <img src="assets/plans/bcover.png" data-plan="bcover">
+  <img src="assets/plans/ccover.png" data-plan="ccover">
+  <img src="assets/plans/dcover.png" data-plan="dcover">
+  <img src="assets/plans/ecover.png" data-plan="ecover">
+  <img src="assets/plans/fcover.png" data-plan="fcover">
+</div>
+
+
         </div>
       </div>
     </div>
 
-    <!-- CONNECT -->
-    <div class="service">
-      <div class="serviceTop">
-        <div class="icon"><img src="assets/images/circle.svg" alt="Connect"></div>
-        <h3>Connect</h3>
-        <p>Builder coordination—connecting you with qualified professionals aligned to your project size, expectations, and timeline.</p>
-      </div>
-
+    <!-- ELEMENTS -->
+    <div>
       <div class="subLabel">Elements</div>
-
       <div class="vmarquee" id="vm-elements">
-        <div class="vfadeTop"></div><div class="vfadeBottom"></div>
+        <div class="vfadeTop"></div>
+        <div class="vfadeBottom"></div>
         <div class="vviewport">
           <div class="vtrack" id="vt-elements">
-            <img src="assets/elements/elements_01.png" alt="Element 01">
-            <img src="assets/elements/elements_02.jpg" alt="Element 02">
-            <img src="assets/elements/elements_03.jpg" alt="Element 03">
-            <img src="assets/elements/elements_04.jpg" alt="Element 04">
-            <img src="assets/elements/elements_05.jpg" alt="Element 05">
-            <img src="assets/elements/elements_06.jpg" alt="Element 06">
-            <img src="assets/elements/elements_07.jpg" alt="Element 07">
-            <img src="assets/elements/elements_08.jpg" alt="Element 08">
-            <img src="assets/elements/elements_09.jpg" alt="Element 09">
-            <img src="assets/elements/elements_10.jpg" alt="Element 10">
-            <img src="assets/elements/elements_11.jpg" alt="Element 11">
-            <img src="assets/elements/elements_12.jpg" alt="Element 12">
-            <img src="assets/elements/elements_13.jpg" alt="Element 13">
-            <img src="assets/elements/elements_14.jpg" alt="Element 14">
-            <img src="assets/elements/elements_15.jpg" alt="Element 15">
-            <img src="assets/elements/elements_16.jpg" alt="Element 16">
-            <img src="assets/elements/elements_17.jpg" alt="Element 17">
-            <img src="assets/elements/elements_18.jpg" alt="Element 18">
-            <img src="assets/elements/elements_19.jpg" alt="Element 19">
-            <img src="assets/elements/elements_20.jpg" alt="Element 20">
-            <img src="assets/elements/elements_21.jpg" alt="Element 21">
-            <img src="assets/elements/elements_22.jpg" alt="Element 22">
-            <img src="assets/elements/elements_23.jpg" alt="Element 23">
-            <img src="assets/elements/elements_24.jpg" alt="Element 24">
-            <img src="assets/elements/elements_25.jpg" alt="Element 25">
-            <img src="assets/elements/elements_26.jpg" alt="Element 26">
-            <img src="assets/elements/elements_27.jpg" alt="Element 27">
-            <img src="assets/elements/elements_28.jpg" alt="Element 28">
-            <img src="assets/elements/elements_29.jpg" alt="Element 29">
-            <img src="assets/elements/elements_30.jpg" alt="Element 30">
-            <img src="assets/elements/elements_31.jpg" alt="Element 31">
+            <img src="assets/elements/elements_01.jpg">
+            <img src="assets/elements/elements_02.jpg">
+            <img src="assets/elements/elements_03.jpg">
+            <img src="assets/elements/elements_04.jpg">
+            <img src="assets/elements/elements_05.jpg">
+            <img src="assets/elements/elements_06.jpg">
+            <img src="assets/elements/elements_07.jpg">
+            <img src="assets/elements/elements_08.jpg">
+            <img src="assets/elements/elements_09.jpg">
+            <img src="assets/elements/elements_10.jpg">
+            <img src="assets/elements/elements_11.jpg">
+            <img src="assets/elements/elements_12.jpg">
+            <img src="assets/elements/elements_13.jpg">
+            <img src="assets/elements/elements_14.jpg">
+            <img src="assets/elements/elements_15.jpg">
+            <img src="assets/elements/elements_16.jpg">
+            <img src="assets/elements/elements_17.jpg">
+            <img src="assets/elements/elements_18.jpg">
+            <img src="assets/elements/elements_19.jpg">
+            <img src="assets/elements/elements_20.jpg">
+            <img src="assets/elements/elements_21.jpg">
+            <img src="assets/elements/elements_22.jpg">
+            <img src="assets/elements/elements_23.jpg">
+            <img src="assets/elements/elements_24.jpg">
+            <img src="assets/elements/elements_25.jpg">
+            <img src="assets/elements/elements_26.jpg">
+            <img src="assets/elements/elements_27.jpg">
+            <img src="assets/elements/elements_28.jpg">
+            <img src="assets/elements/elements_29.jpg">
+            <img src="assets/elements/elements_30.jpg">
+            <img src="assets/elements/elements_31.jpg">
           </div>
         </div>
       </div>
-
     </div>
 
   </div>
 </section>
 
-<!-- LIGHTBOX -->
+<script>
+function initVerticalLoop(marqueeId, trackId, speed){
+  const marquee = document.getElementById(marqueeId);
+  const track = document.getElementById(trackId);
+  if(!marquee || !track) return;
+
+  [...track.children].forEach(el =>
+    track.appendChild(el.cloneNode(true))
+  );
+
+  let offset = 0;
+  let dragging = false;
+  let startY = 0;
+  let startOffset = 0;
+
+  marquee.addEventListener("pointerdown", e=>{
+    dragging = true;
+    startY = e.clientY;
+    startOffset = offset;
+    marquee.setPointerCapture(e.pointerId);
+  });
+
+  marquee.addEventListener("pointermove", e=>{
+    if(!dragging) return;
+    offset = startOffset + (e.clientY - startY);
+  });
+
+  ["pointerup","pointerleave","pointercancel"].forEach(evt=>{
+    marquee.addEventListener(evt,()=>dragging=false);
+  });
+
+  function animate(){
+    if(!dragging) offset -= speed;
+
+    const half = track.scrollHeight / 2;
+    if(offset <= -half) offset += half;
+    if(offset >= 0) offset -= half;
+
+    track.style.transform = `translate3d(0, ${offset}px, 0)`;
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+window.addEventListener("load", ()=>{
+  initVerticalLoop("vm-design","vt-design",0.3);
+  initVerticalLoop("vm-plans","vt-plans",0.25);
+  initVerticalLoop("vm-elements","vt-elements",0.28);
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- =========================================================
+     PART 3 — LIGHTBOX (ENLARGE) — FIXED
+     ========================================================= -->
+
+<!-- LIGHTBOX MARKUP -->
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lbClose" aria-label="Close image">✕</button>
+  <button class="lbNav lbPrev" aria-label="Previous image">‹</button>
+  <button class="lbNav lbNext" aria-label="Next image">›</button>
+
   <div class="lbStage">
     <img id="lightboxImg" alt="">
   </div>
 </div>
 
-<footer>
-  © <span id="year"></span> Redefining Elements · Design · Build · Connect
-</footer>
+<!-- LIGHTBOX STYLES -->
+<style>
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
 
-<!-- =========================
-     Element Genie (Estimator)
-     ========================= -->
-<div class="eg-overlay" id="egOverlay"></div>
+.lightbox[aria-hidden="false"]{
+  display:flex;
+}
 
-<div class="eg-modal" id="egModal" aria-hidden="true">
-  <div class="eg-header">
-    <div class="eg-title">
-      <strong>Element Genie</strong>
-      <span>Redefining Elements • Quick Estimate</span>
-    </div>
-    <button class="eg-x" id="egClose" aria-label="Close">×</button>
-  </div>
+.lbStage{
+  max-width:92vw;
+  max-height:92vh;
+}
 
-  <div class="eg-body" id="egChat"></div>
+.lbStage img{
+  max-width:100%;
+  max-height:100%;
+  display:block;
+}
 
-  <div class="eg-input">
-    <input id="egInput" placeholder="Type your answer…" autocomplete="off">
-    <button id="egSend" type="button">Send</button>
-  </div>
-</div>
+.lbClose{
+  position:absolute;
+  top:24px;
+  right:28px;
+  font-size:28px;
+  background:none;
+  border:0;
+  color:#fff;
+  cursor:pointer;
+}
 
-<div class="eg-launcher" id="egLauncher">
-  <div class="eg-pill" aria-hidden="true">
-    <div class="eg-dot"></div>
-    <div class="eg-pillText">
-      <strong>Element Genie</strong>
-      <span class="sub">Free consultation</span>
-    </div>
-  </div>
-  <button class="eg-btn" id="egOpen">Estimate</button>
-</div>
+.lbNav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:42px;
+  background:none;
+  border:0;
+  color:#fff;
+  cursor:pointer;
+  padding:12px;
+}
 
+.lbPrev{ left:20px; }
+.lbNext{ right:20px; }
+
+@media (max-width:700px){
+  .lbNav{ font-size:34px; }
+}
+</style>
+
+<!-- LIGHTBOX LOGIC -->
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-/* AUTO SCROLL AFTER 1.5s — DOWN ONLY to top of video (never up after passing video) */
-let allowAutoScroll = true;
-["wheel","touchstart","keydown","mousedown"].forEach(evt=>{
-  window.addEventListener(evt,()=>allowAutoScroll=false,{ once:true });
-});
-
-function smoothScrollTo(targetY, duration){
-  const startY = window.scrollY;
-  const diff = targetY - startY;
-  if(diff <= 0) return; // never auto-scroll upward
-
-  let start;
-  function ease(t){ return t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2,2)/2; }
-
-  function step(ts){
-    if(!start) start = ts;
-    const time = ts - start;
-    const p = Math.min(time / duration, 1);
-    window.scrollTo(0, startY + diff * ease(p));
-    if(time < duration && allowAutoScroll) requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    if(!allowAutoScroll) return;
-    const video = document.getElementById("video");
-    if(!video) return;
-    const videoY = video.getBoundingClientRect().top + window.scrollY;
-    if(window.scrollY >= videoY) return; // already past video → do nothing
-    smoothScrollTo(videoY, 16000);
-  },1500);
-});
-
-/* VIDEO BAR PLAYLIST (2 videos) */
-const videoBar = document.getElementById("videoBar");
-const videoPlaylist = [
-  "assets/video/video-bar.mp4",
-  "assets/video/video-bar_02.mp4"
-];
-let videoIndex = 0;
-videoBar.addEventListener("ended", () => {
-  videoIndex = (videoIndex + 1) % videoPlaylist.length;
-  videoBar.src = videoPlaylist[videoIndex];
-  videoBar.load();
-  videoBar.play().catch(()=>{});
-});
-
-/* VERTICAL MARQUEE: seamless loop (one-direction), drag */
-function initVerticalMarquee({ marqueeEl, trackEl, speedPxPerSec = 14 }){
-  if(!marqueeEl || !trackEl) return;
-
-  // Duplicate once for seamless loop
-  const originals = Array.from(trackEl.children);
-  originals.forEach(n => trackEl.appendChild(n.cloneNode(true)));
-
-  let offset = 0;
-  let dragging = false;
-  let dragStartY = 0;
-  let dragStartOffset = 0;
-
-  marqueeEl.addEventListener("pointerdown", (e)=>{
-    dragging = true;
-    marqueeEl.classList.add("dragging");
-    marqueeEl.setPointerCapture?.(e.pointerId);
-    dragStartY = e.clientY;
-    dragStartOffset = offset;
-  });
-
-  marqueeEl.addEventListener("pointermove", (e)=>{
-    if(!dragging) return;
-    const dy = e.clientY - dragStartY;
-    offset = dragStartOffset + dy;
-  });
-
-  const endDrag = ()=>{
-    dragging = false;
-    marqueeEl.classList.remove("dragging");
-  };
-  marqueeEl.addEventListener("pointerup", endDrag);
-  marqueeEl.addEventListener("pointercancel", endDrag);
-  marqueeEl.addEventListener("pointerleave", endDrag);
-
-  const halfHeight = ()=> trackEl.scrollHeight / 2;
-
-  const normalize = ()=>{
-    const half = halfHeight();
-    if(half <= 0) return;
-    while(offset <= -half) offset += half;
-    while(offset > 0) offset -= half;
-  };
-
-  const imgs = trackEl.querySelectorAll("img");
-  let remaining = imgs.length;
-
-  const start = ()=>{
-    let last = performance.now();
-    const step = (now)=>{
-      const dt = (now - last)/1000;
-      last = now;
-
-      if(!dragging){
-        offset -= speedPxPerSec * dt; // continuous loop (no bounce)
-      }
-
-      normalize();
-      trackEl.style.transform = `translate3d(0, ${offset}px, 0)`;
-      requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  };
-
-  imgs.forEach(img=>{
-    if(img.complete) remaining--;
-    else{
-      img.addEventListener("load", ()=>{ remaining--; if(remaining===0) start(); }, {once:true});
-      img.addEventListener("error", ()=>{ remaining--; if(remaining===0) start(); }, {once:true});
-    }
-  });
-
-  if(remaining === 0) start();
-
-  window.addEventListener("resize", ()=>{
-    normalize();
-    trackEl.style.transform = `translate3d(0, ${offset}px, 0)`;
-  });
-}
-
-initVerticalMarquee({
-  marqueeEl: document.getElementById("vm-design"),
-  trackEl: document.getElementById("vt-design"),
-  speedPxPerSec: 16
-});
-initVerticalMarquee({
-  marqueeEl: document.getElementById("vm-plans"),
-  trackEl: document.getElementById("vt-plans"),
-  speedPxPerSec: 12
-});
-initVerticalMarquee({
-  marqueeEl: document.getElementById("vm-elements"),
-  trackEl: document.getElementById("vt-elements"),
-  speedPxPerSec: 12
-});
-
-/* LIGHTBOX: click to open (all), PLUS Plans-only zoom/pan */
 (() => {
-  const lb = document.getElementById("lightbox");
+  const lightbox = document.getElementById("lightbox");
   const lbImg = document.getElementById("lightboxImg");
-  const closeBtn = lb?.querySelector(".lbClose");
-  if(!lb || !lbImg) return;
+  const btnClose = lightbox.querySelector(".lbClose");
+  const btnPrev = lightbox.querySelector(".lbPrev");
+  const btnNext = lightbox.querySelector(".lbNext");
 
-  let startX=0, startY=0, startTime=0;
-  let targetImg=null;
+  let images = [];
+  let index = 0;
 
-  let zoomEnabled = false;
-  let scale = 1;
-  let tx = 0, ty = 0;
+  let startX = 0, startY = 0, startTime = 0;
+  let targetImg = null;
 
-  const pointers = new Map();
-  let panStart = null;
-  let pinchState = null;
+  // OPEN
+  
 
-  const clamp = (v, min, max)=> Math.max(min, Math.min(max, v));
 
-  function applyTransform(){
-    lbImg.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`;
+
+
+function openLightbox(img){
+  const plan = img.dataset.plan;
+
+  const planSets = {
+    acover: buildSet("acover", 8),
+    bcover: buildSet("bcover", 10),
+    ccover: buildSet("ccover", 2),
+    dcover: buildSet("dcover", 4),
+    ecover: buildSet("ecover", 3),
+    fcover: buildSet("fcover", 9)
+  };
+
+  if(plan && planSets[plan]){
+    images = planSets[plan];
+    index = 0;
+    lbImg.src = images[index];
+  } else {
+    const track = img.closest(".vtrack");
+    images = Array.from(track.querySelectorAll("img")).map(i => i.src);
+    index = images.indexOf(img.src);
+    lbImg.src = images[index];
   }
 
-  function resetZoom(){
-    scale = 1; tx = 0; ty = 0;
-    pointers.clear();
-    panStart = null;
-    pinchState = null;
-    lb.classList.remove("dragging");
-    applyTransform();
+  lightbox.setAttribute("aria-hidden","false");
+}
+
+// helper — DO NOT MOVE
+function buildSet(name, pages){
+  const arr = [`assets/plans/${name}.png`];
+  for(let i = 1; i <= pages; i++){
+    arr.push(`assets/plans/${name}p${i}.png`);
   }
+  return arr;
+}
 
-  function openLightbox(imgEl){
-    lbImg.src = imgEl.src;
-    lbImg.alt = imgEl.alt || "Gallery image";
 
-    // Plans-only zoom
-    zoomEnabled = !!imgEl.closest("#vt-plans");
-    lb.classList.toggle("zoomable", zoomEnabled);
 
-    resetZoom();
-    lb.style.display = "flex";
-    lb.setAttribute("aria-hidden","false");
-  }
 
+
+
+  // CLOSE
   function closeLightbox(){
-    lb.style.display = "none";
-    lb.setAttribute("aria-hidden","true");
+    lightbox.setAttribute("aria-hidden","true");
     lbImg.src = "";
-    lb.classList.remove("zoomable");
-    zoomEnabled = false;
-    resetZoom();
+    images = [];
+    index = 0;
   }
 
-  // Tap detection (keeps drag working)
-  document.addEventListener("pointerdown", (e) => {
+  // NAVIGATE (FIXED)
+  function navigate(dir){
+    if(!images.length) return;
+    index = (index + dir + images.length) % images.length;
+    lbImg.src = images[index];
+  }
+
+  // TAP DETECTION
+  document.addEventListener("pointerdown", e => {
     const img = e.target.closest(".vtrack img");
     if(!img) return;
     startX = e.clientX;
     startY = e.clientY;
     startTime = Date.now();
     targetImg = img;
-  }, {passive:true});
+  }, { passive:true });
 
-  document.addEventListener("pointerup", (e) => {
+  document.addEventListener("pointerup", e => {
     if(!targetImg) return;
 
     const dx = Math.abs(e.clientX - startX);
     const dy = Math.abs(e.clientY - startY);
     const dt = Date.now() - startTime;
 
-    if(dx < 10 && dy < 10 && dt < 350){
+    if(dx < 10 && dy < 10 && dt < 300){
       openLightbox(targetImg);
     }
     targetImg = null;
-  }, {passive:true});
+  }, { passive:true });
 
-  // Close button
-  closeBtn?.addEventListener("click", closeLightbox);
+  // CONTROLS
+  btnClose.addEventListener("click", closeLightbox);
+  btnPrev.addEventListener("click", () => navigate(-1));
+  btnNext.addEventListener("click", () => navigate(1));
 
-  // Backdrop click closes (not image)
-  lb.addEventListener("pointerdown", (e)=>{ if(e.target === lb) closeLightbox(); });
-
-  // ESC closes
-  window.addEventListener("keydown", (e)=>{ if(e.key === "Escape" && lb.style.display==="flex") closeLightbox(); });
-
-  // Wheel zoom (desktop) — Plans only
-  lb.addEventListener("wheel", (e) => {
-    if(!zoomEnabled || lb.style.display !== "flex") return;
-    e.preventDefault();
-
-    const rect = lbImg.getBoundingClientRect();
-    const cx = e.clientX - (rect.left + rect.width/2);
-    const cy = e.clientY - (rect.top + rect.height/2);
-
-    const zoomStep = (e.deltaY < 0) ? 1.12 : 1/1.12;
-    const next = clamp(scale * zoomStep, 1, 4);
-    const ratio = next / scale;
-
-    tx = tx - cx*(ratio - 1);
-    ty = ty - cy*(ratio - 1);
-    scale = next;
-
-    if(scale === 1){ tx = 0; ty = 0; }
-    applyTransform();
-  }, {passive:false});
-
-  // Pinch zoom + pan (mobile/trackpad) — Plans only
-  lbImg.addEventListener("pointerdown", (e) => {
-    if(!zoomEnabled || lb.style.display !== "flex") return;
-    lbImg.setPointerCapture?.(e.pointerId);
-    pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
-
-    if(scale > 1 && pointers.size === 1){
-      panStart = {x:e.clientX, y:e.clientY, tx0:tx, ty0:ty};
-      lb.classList.add("dragging");
-    }
+  // BACKDROP CLOSE
+  lightbox.addEventListener("pointerdown", e => {
+    if(e.target === lightbox) closeLightbox();
   });
 
-  lbImg.addEventListener("pointermove", (e) => {
-    if(!zoomEnabled || lb.style.display !== "flex") return;
-    if(!pointers.has(e.pointerId)) return;
-
-    pointers.set(e.pointerId, {x:e.clientX, y:e.clientY});
-
-    // Pan when zoomed
-    if(scale > 1 && pointers.size === 1 && panStart){
-      tx = panStart.tx0 + (e.clientX - panStart.x);
-      ty = panStart.ty0 + (e.clientY - panStart.y);
-      applyTransform();
-      return;
-    }
-
-    // Pinch zoom
-    if(pointers.size === 2){
-      const pts = Array.from(pointers.values());
-      const [p1,p2] = pts;
-      const mx = (p1.x + p2.x)/2;
-      const my = (p1.y + p2.y)/2;
-      const dist = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-
-      if(!pinchState){
-        pinchState = {dist0:dist, scale0:scale, mx, my};
-        lb.classList.add("dragging");
-        return;
-      }
-
-      const next = clamp(pinchState.scale0 * (dist / pinchState.dist0), 1, 4);
-
-      const rect = lbImg.getBoundingClientRect();
-      const cx = mx - (rect.left + rect.width/2);
-      const cy = my - (rect.top + rect.height/2);
-
-      const ratio = next / scale;
-      tx = tx - cx*(ratio - 1);
-      ty = ty - cy*(ratio - 1);
-      scale = next;
-
-      if(scale === 1){ tx = 0; ty = 0; }
-      applyTransform();
-    }
+  // KEYBOARD
+  window.addEventListener("keydown", e => {
+    if(lightbox.getAttribute("aria-hidden") === "true") return;
+    if(e.key === "Escape") closeLightbox();
+    if(e.key === "ArrowLeft") navigate(-1);
+    if(e.key === "ArrowRight") navigate(1);
   });
-
-  function endPointer(e){
-    pointers.delete(e.pointerId);
-    panStart = null;
-    pinchState = null;
-    lb.classList.remove("dragging");
-  }
-
-  lbImg.addEventListener("pointerup", endPointer);
-  lbImg.addEventListener("pointercancel", endPointer);
-  lbImg.addEventListener("pointerleave", endPointer);
-
-  // Double tap/click to reset (Plans only)
-  let lastTap = 0;
-  lbImg.addEventListener("pointerup", () => {
-    if(!zoomEnabled || lb.style.display !== "flex") return;
-    const now = Date.now();
-    if(now - lastTap < 280) resetZoom();
-    lastTap = now;
-  });
-})();
-
-/* =========================================================
-   ELEMENT GENIE — Estimator (fixed flow)
-   ========================================================= */
-(() => {
-  const modal = document.getElementById("egModal");
-  const overlay = document.getElementById("egOverlay");
-  const openBtn = document.getElementById("egOpen");
-  const closeBtn = document.getElementById("egClose");
-  const launcher = document.getElementById("egLauncher");
-
-  const chat = document.getElementById("egChat");
-  const input = document.getElementById("egInput");
-  const sendBtn = document.getElementById("egSend");
-
-  if(!modal || !overlay || !openBtn || !closeBtn || !chat || !input || !sendBtn || !launcher) return;
-
-  const money = n => Math.round(Number(n)||0).toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0});
-  const num = s => { s=(s||"").replace(/,/g,"").trim(); const n=Number(s); return Number.isFinite(n)?n:null; };
-
-  function openModal(){
-    modal.classList.add("show");
-    overlay.classList.add("show");
-    modal.setAttribute("aria-hidden","false");
-    setTimeout(()=> input.focus(), 50);
-  }
-  function closeModal(){
-    modal.classList.remove("show");
-    overlay.classList.remove("show");
-    modal.setAttribute("aria-hidden","true");
-  }
-  closeBtn.addEventListener("click", closeModal);
-  overlay.addEventListener("click", closeModal);
-  document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeModal(); });
-
-  // show launcher only near bottom
-  function toggleLauncherByScroll(){
-    const y = window.scrollY || window.pageYOffset;
-    const vh = window.innerHeight;
-    const dh = document.documentElement.scrollHeight;
-    const nearBottom = (y + vh) >= (dh - 250);
-    launcher.classList.toggle("show", nearBottom);
-    if(!nearBottom) closeModal();
-  }
-  window.addEventListener("scroll", toggleLauncherByScroll, { passive:true });
-  window.addEventListener("load", toggleLauncherByScroll);
-  window.addEventListener("resize", toggleLauncherByScroll);
-
-  function botMsg(t){
-    const d=document.createElement("div");
-    d.className="eg-msg eg-bot";
-    d.textContent=t;
-    chat.appendChild(d);
-    chat.scrollTop=chat.scrollHeight;
-    return d;
-  }
-  function userMsg(t){
-    const d=document.createElement("div");
-    d.className="eg-msg eg-user";
-    d.textContent=t;
-    chat.appendChild(d);
-    chat.scrollTop=chat.scrollHeight;
-  }
-
-  function addActions(step, buttons){
-    const wrap = document.createElement("div");
-    wrap.className = "eg-actions";
-    wrap.dataset.step = step;
-    for(const b of buttons){
-      const el = document.createElement("button");
-      el.type = "button";
-      el.className = b.primary ? "eg-primary" : "eg-chip";
-      el.textContent = b.label;
-      el.dataset.value = b.value ?? "";
-      el.dataset.kind = b.kind ?? "single";
-      wrap.appendChild(el);
-    }
-    chat.appendChild(wrap);
-    chat.scrollTop = chat.scrollHeight;
-    return wrap;
-  }
-
-  function clearOldActionRows(){
-    const buttons = chat.querySelectorAll(".eg-actions button");
-    buttons.forEach(b => b.disabled = true);
-  }
-
-  function setInputMode(enabled, placeholder){
-    input.disabled = !enabled;
-    sendBtn.disabled = !enabled;
-    input.placeholder = placeholder || (enabled ? "Type your answer…" : "Use the buttons above…");
-    if(enabled) setTimeout(()=>input.focus(), 50);
-  }
-
-  function submitLeadEmail(subject, message, replyTo){
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "https://formsubmit.co/redefiningelements@gmail.com";
-    form.style.display = "none";
-
-    const add = (name, value) => {
-      const i = document.createElement("input");
-      i.type = "hidden";
-      i.name = name;
-      i.value = value;
-      form.appendChild(i);
-    };
-
-    add("_subject", subject);
-    add("_captcha", "false");
-    add("_template", "table");
-    if(replyTo) add("_replyto", replyTo);
-    add("message", message);
-
-    document.body.appendChild(form);
-    form.submit();
-    setTimeout(()=> form.remove(), 1500);
-  }
-
-  /* Pricing */
-  const PRICING = {
-    concrete: 22,
-    pavers: { standard: 25, mid: 30, premium: 40 },
-    steps: 140,
-    wall: {
-      modular: 150,
-      cinderblockBase: 180,
-      finish: { none: 0, stucco: 80, stone: 140 }
-    }
-  };
-
-  function totalSqftAllAreas(d){
-    const a = d.areaSqft;
-    return (a.backyard||0) + (a["front yard"]||0) + (a.driveway||0) + (a["side yard"]||0);
-  }
-
-  function estimateBuildTotal(d){
-    const totalSqft = totalSqftAllAreas(d);
-
-    // base hardscape
-    let hardscape = 0;
-    hardscape += (d.concreteSqft || 0) * PRICING.concrete;
-    if((d.paverSqft || 0) > 0){
-      const rate = PRICING.pavers[d.paverTier] || 0;
-      hardscape += d.paverSqft * rate;
-    }
-
-    // walls
-    let wallRate = 0;
-    if(d.wallBase === "modular"){
-      wallRate = PRICING.wall.modular;
-    }else if(d.wallBase === "cinderblock"){
-      wallRate = PRICING.wall.cinderblockBase + (PRICING.wall.finish[d.wallFinish] || 0);
-    }
-
-    let walls = 0;
-    if(d.hasWalls){
-      if(d.wallKind === "retaining" || d.wallKind === "both"){
-        walls += (d.wallRet.len || 0) * (d.wallRet.ht || 0) * wallRate;
-      }
-      if(d.wallKind === "freestanding" || d.wallKind === "both"){
-        walls += (d.wallFree.len || 0) * (d.wallFree.ht || 0) * wallRate;
-      }
-    }
-
-    // steps (linear ft)
-    let steps = 0;
-    if(d.hasSteps){
-      steps = (d.stepsLf || 0) * PRICING.steps;
-    }
-
-    let subtotal = hardscape + walls + steps;
-
-    // multipliers
-    let m = 1;
-
-    // area weighted multiplier
-    const areaMult = {
-      backyard: 1.05,
-      "front yard": 1.00,
-      driveway: 1.00,
-      "side yard": 1.03
-    };
-
-    if(totalSqft > 0){
-      const a = d.areaSqft;
-      let weighted = 0;
-      for(const k of Object.keys(a)){
-        weighted += (a[k]||0) * (areaMult[k] || 1);
-      }
-      m *= (weighted / totalSqft);
-    }
-
-    // size multiplier
-    if(totalSqft <= 500) m *= 1.05;
-    if(totalSqft > 2000) m *= 0.98;
-
-    // access gate
-    if(d.gateUnder3 === true) m *= 1.02;
-
-    // backyard-only stairs multiplier (yes/no)
-    if((d.areaSqft.backyard||0) > 0 && d.backyardStairs === true) m *= 1.05;
-
-    return subtotal * m;
-  }
-
-  // range rules
-  function calcRange(total){
-    const t = Math.max(0, Number(total)||0);
-
-    if(t < 100000){
-      const step = 5000;
-      let lower = Math.floor(t / step) * step;
-      let upper = Math.ceil(t / step) * step;
-      if(upper <= lower) upper = lower + step;
-
-      if(t <= 10000){
-        lower = Math.max(0, Math.round(t * 0.8 / 1000) * 1000);
-        upper = Math.ceil(t / step) * step;
-        if(upper <= t) upper += step;
-      }
-      return { lower, upper };
-    }
-
-    const band = Math.floor(t / 100000) * 100000; // 100k band
-    const k = Math.max(1, Math.floor(band / 100000)); // 1 for 100k, 2 for 200k...
-    const delta = 10000 * k; // 10k, 20k, 30k...
-    let lower = Math.max(0, t - delta);
-    let upper = t + delta;
-
-    lower = Math.floor(lower / 5000) * 5000;
-    upper = Math.ceil(upper / 5000) * 5000;
-    if(upper <= lower) upper = lower + 5000;
-    return { lower, upper };
-  }
-
-  /* State */
-  const state = {
-    mode: null, // "design" | "build"
-    step: "",
-    multi: { areas:new Set(), features:new Set(), demo:new Set() },
-    data: {
-      // design
-      designSqft: 0,
-
-      // build
-      areas: [],
-      areaSqft: { backyard:0, "front yard":0, driveway:0, "side yard":0 },
-
-      material: null,
-      concreteSqft: 0,
-      paverSqft: 0,
-      paverTier: null,
-
-      gateUnder3: null,
-      backyardStairs: null,
-      slope: null,
-
-      hasWalls: null,
-      wallKind: null,
-      wallBase: null,
-      wallFinish: "none",
-      wallRet: { len:0, ht:0 },
-      wallFree:{ len:0, ht:0 },
-
-      hasSteps: null,
-      stepsLf: 0,
-
-      specialFeatures: [],
-      specialOther: "",
-
-      specialDemo: [],
-      demoOther: "",
-
-      designService: null,
-
-      leadName: "",
-      leadPhone: "",
-      leadEmail: "",
-      jobAddress: ""
-    },
-    results: {
-      designPriceText: "",
-      buildTotal: 0,
-      buildRange: null
-    }
-  };
-
-  function resetEstimator(){
-    chat.innerHTML = "";
-    state.mode = null;
-    state.step = "";
-    state.multi.areas = new Set();
-    state.multi.features = new Set();
-    state.multi.demo = new Set();
-
-    state.data.designSqft = 0;
-
-    state.data.areas = [];
-    state.data.areaSqft = { backyard:0, "front yard":0, driveway:0, "side yard":0 };
-
-    state.data.material = null;
-    state.data.concreteSqft = 0;
-    state.data.paverSqft = 0;
-    state.data.paverTier = null;
-
-    state.data.gateUnder3 = null;
-    state.data.backyardStairs = null;
-    state.data.slope = null;
-
-    state.data.hasWalls = null;
-    state.data.wallKind = null;
-    state.data.wallBase = null;
-    state.data.wallFinish = "none";
-    state.data.wallRet = { len:0, ht:0 };
-    state.data.wallFree = { len:0, ht:0 };
-
-    state.data.hasSteps = null;
-    state.data.stepsLf = 0;
-
-    state.data.specialFeatures = [];
-    state.data.specialOther = "";
-
-    state.data.specialDemo = [];
-    state.data.demoOther = "";
-
-    state.data.designService = null;
-
-    state.data.leadName = "";
-    state.data.leadPhone = "";
-    state.data.leadEmail = "";
-    state.data.jobAddress = "";
-
-    state.results.designPriceText = "";
-    state.results.buildTotal = 0;
-    state.results.buildRange = null;
-
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function intro(){
-    botMsg(
-`We’re a design company offering 3D conceptual design services.
-We can help project managers create build lists and build plans.
-If you’d like, we can also help connect you to qualified professional builders and support the estimate process.`
-    );
-    botMsg("Choose an estimator to begin:");
-    addActions("mode", [
-      {label:"Design Estimator", value:"design", kind:"single", primary:true},
-      {label:"Build Estimator", value:"build", kind:"single"}
-    ]);
-  }
-
-  function askBuildAreas(){
-    botMsg("Which area(s) are included? Tap to select multiple, then press Done.");
-    addActions("areas", [
-      {label:"Backyard", value:"backyard", kind:"toggle"},
-      {label:"Front yard", value:"front yard", kind:"toggle"},
-      {label:"Driveway", value:"driveway", kind:"toggle"},
-      {label:"Side yard", value:"side yard", kind:"toggle"},
-      {label:"Done", value:"done", kind:"done", primary:true}
-    ]);
-  }
-
-  function askNextAreaSqft(){
-    const d = state.data;
-    for(const area of d.areas){
-      if(d.areaSqft[area] === 0){
-        botMsg(`${area[0].toUpperCase()+area.slice(1)} sq ft? (number)`);
-        state.step = "build_area_sqft";
-        state._currentArea = area;
-        setInputMode(true, "Enter square footage…");
-        return;
-      }
-    }
-    // done
-    askMaterial();
-  }
-
-  function askMaterial(){
-    botMsg("Type of work? Tap one:");
-    addActions("material", [
-      {label:"Concrete", value:"concrete", kind:"single", primary:true},
-      {label:"Pavers", value:"pavers", kind:"single"},
-      {label:"Both", value:"both", kind:"single"}
-    ]);
-    state.step = "build_material";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askPaverTier(){
-    botMsg("Paver tier? Tap one:");
-    addActions("paverTier", [
-      {label:"Standard", value:"standard", kind:"single", primary:true},
-      {label:"Mid-range", value:"mid", kind:"single"},
-      {label:"Premium", value:"premium", kind:"single"}
-    ]);
-    state.step = "build_paverTier";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askGate(){
-    botMsg("Is the main access gate UNDER 3 ft wide?");
-    addActions("gate", [
-      {label:"Yes", value:"yes", kind:"single", primary:true},
-      {label:"No", value:"no", kind:"single"}
-    ]);
-    state.step = "build_gate";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askBackyardStairs(){
-    if((state.data.areaSqft.backyard||0) <= 0){
-      askSlope();
-      return;
-    }
-    botMsg("Are there stairs to the backyard area?");
-    addActions("backyardStairs", [
-      {label:"Yes", value:"yes", kind:"single", primary:true},
-      {label:"No", value:"no", kind:"single"}
-    ]);
-    state.step = "build_backyardStairs";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askSlope(){
-    botMsg("Any slope/grade? (note only for now)");
-    addActions("slope", [
-      {label:"Yes", value:"yes", kind:"single", primary:true},
-      {label:"No", value:"no", kind:"single"}
-    ]);
-    state.step = "build_slope";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askWalls(){
-    botMsg("Any walls?");
-    addActions("hasWalls", [
-      {label:"Yes", value:"yes", kind:"single", primary:true},
-      {label:"No", value:"no", kind:"single"}
-    ]);
-    state.step = "build_hasWalls";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askWallKind(){
-    botMsg("What type of wall(s)? Tap one:");
-    addActions("wallKind", [
-      {label:"Retaining wall", value:"retaining", kind:"single", primary:true},
-      {label:"Freestanding / sitting wall", value:"freestanding", kind:"single"},
-      {label:"Both", value:"both", kind:"single"}
-    ]);
-    state.step = "build_wallKind";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askWallBase(){
-    botMsg("Wall construction? Tap one:");
-    addActions("wallBase", [
-      {label:"Modular wall (segmental block)", value:"modular", kind:"single", primary:true},
-      {label:"Concrete cinderblock wall", value:"cinderblock", kind:"single"}
-    ]);
-    state.step = "build_wallBase";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askWallFinish(){
-    botMsg("Cinderblock finish? Tap one:");
-    addActions("wallFinish", [
-      {label:"None", value:"none", kind:"single", primary:true},
-      {label:"Stucco (+$80/sf)", value:"stucco", kind:"single"},
-      {label:"Stone cladding (+$140/sf)", value:"stone", kind:"single"}
-    ]);
-    state.step = "build_wallFinish";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askWallDims(){
-    const d = state.data;
-
-    // retain
-    if(d.wallKind === "retaining" || d.wallKind === "both"){
-      if(!d.wallRet.len){
-        botMsg("Retaining wall LENGTH (ft)? (number)");
-        state.step = "build_wallDims_ret_len";
-        setInputMode(true, "Enter number…");
-        return;
-      }
-      if(!d.wallRet.ht){
-        botMsg("Retaining wall AVERAGE HEIGHT (ft)? (number)");
-        state.step = "build_wallDims_ret_ht";
-        setInputMode(true, "Enter number…");
-        return;
-      }
-    }
-
-    // free
-    if(d.wallKind === "freestanding" || d.wallKind === "both"){
-      if(!d.wallFree.len){
-        botMsg("Freestanding wall LENGTH (ft)? (number)");
-        state.step = "build_wallDims_free_len";
-        setInputMode(true, "Enter number…");
-        return;
-      }
-      if(!d.wallFree.ht){
-        botMsg("Freestanding wall AVERAGE HEIGHT (ft)? (number)");
-        state.step = "build_wallDims_free_ht";
-        setInputMode(true, "Enter number…");
-        return;
-      }
-    }
-
-    askStepsBuilt();
-  }
-
-  function askStepsBuilt(){
-    botMsg("Are steps being built in the project area?");
-    addActions("hasSteps", [
-      {label:"Yes", value:"yes", kind:"single", primary:true},
-      {label:"No", value:"no", kind:"single"}
-    ]);
-    state.step = "build_hasSteps";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askStepsLf(){
-    botMsg("Total linear feet of steps? (number)");
-    state.step = "build_stepsLf";
-    setInputMode(true, "Enter number…");
-  }
-
-  function askSpecialFeatures(){
-    botMsg("Any special features? Tap to select multiple, then press Done.");
-    addActions("features", [
-      {label:"Outdoor kitchen", value:"Outdoor kitchen", kind:"toggle"},
-      {label:"Pergola", value:"Pergola", kind:"toggle"},
-      {label:"Pavilion structure", value:"Pavilion structure", kind:"toggle"},
-      {label:"Fire pit", value:"Fire pit", kind:"toggle"},
-      {label:"Fireplace", value:"Fireplace", kind:"toggle"},
-      {label:"Swimming pool", value:"Swimming pool", kind:"toggle"},
-      {label:"Other", value:"Other", kind:"toggle"},
-      {label:"None", value:"None", kind:"toggle"},
-      {label:"Done", value:"done", kind:"done", primary:true}
-    ]);
-    state.step = "build_features";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askFeaturesOther(){
-    if(!state.data.specialFeatures.includes("Other")){
-      askSpecialDemo();
-      return;
-    }
-    if(state.data.specialOther){
-      askSpecialDemo();
-      return;
-    }
-    botMsg("Special features — Other: type a short note");
-    state.step = "build_features_other";
-    setInputMode(true, "Type a short note…");
-  }
-
-  function askSpecialDemo(){
-    botMsg("Any special demolition needed? Tap to select multiple, then press Done.");
-    addActions("demo", [
-      {label:"Trees", value:"Trees", kind:"toggle"},
-      {label:"Roots", value:"Roots", kind:"toggle"},
-      {label:"Extra soil removal", value:"Extra soil removal", kind:"toggle"},
-      {label:"Deck / structure removal", value:"Deck / structure removal", kind:"toggle"},
-      {label:"Other", value:"Other", kind:"toggle"},
-      {label:"None", value:"None", kind:"toggle"},
-      {label:"Done", value:"done", kind:"done", primary:true}
-    ]);
-    state.step = "build_demo";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function askDemoOther(){
-    if(!state.data.specialDemo.includes("Other")){
-      askDesignService();
-      return;
-    }
-    if(state.data.demoOther){
-      askDesignService();
-      return;
-    }
-    botMsg("Special demolition — Other: type a short note");
-    state.step = "build_demo_other";
-    setInputMode(true, "Type a short note…");
-  }
-
-  function askDesignService(){
-    botMsg("Do you need design services?");
-    addActions("designService", [
-      {label:"Yes", value:"yes", kind:"single", primary:true},
-      {label:"No", value:"no", kind:"single"}
-    ]);
-    state.step = "build_designService";
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  function showBuildResultThenLead(){
-    const d = state.data;
-    const total = estimateBuildTotal(d);
-    const r = calcRange(total);
-    state.results.buildTotal = total;
-    state.results.buildRange = r;
-
-    botMsg(`Estimated range: ${money(r.lower)} – ${money(r.upper)}`);
-    botMsg(
-`We offer free consultation.
-Share your details below and we’ll follow up to confirm scope and site conditions.`
-    );
-
-    botMsg("Your name?");
-    state.step = "lead_name";
-    setInputMode(true, "Type your name…");
-  }
-
-  function showDesignResultThenLead(){
-    const sqft = state.data.designSqft;
-    let priceText = "";
-    if(sqft <= 1000){
-      priceText = money(1500);
-    }else if(sqft <= 2000){
-      priceText = money(2500);
-    }else{
-      priceText = "Custom pricing — we’ll contact you";
-    }
-    state.results.designPriceText = priceText;
-
-    botMsg(`Design estimate: ${priceText}`);
-    botMsg(
-`We offer free consultation.
-Share your details below and we’ll follow up with next steps.`
-    );
-
-    botMsg("Your name?");
-    state.step = "lead_name";
-    setInputMode(true, "Type your name…");
-  }
-
-  function finishAndSendLead(){
-    const d = state.data;
-    const modeLabel = state.mode === "design" ? "Design Estimator" : "Build Estimator";
-    const r = state.results.buildRange;
-
-    const lines = [];
-    lines.push(`Mode: ${modeLabel}`);
-
-    if(state.mode === "design"){
-      lines.push(`Design project sq ft: ${d.designSqft}`);
-      lines.push(`Design estimate: ${state.results.designPriceText}`);
-    }else{
-      lines.push(`Areas: ${d.areas.join(", ") || "-"}`);
-      lines.push(`Area sq ft: backyard=${d.areaSqft.backyard||0}, front=${d.areaSqft["front yard"]||0}, driveway=${d.areaSqft.driveway||0}, side=${d.areaSqft["side yard"]||0}`);
-      lines.push(`Material: ${d.material || "-"}`);
-      lines.push(`Concrete sq ft: ${d.concreteSqft||0}`);
-      lines.push(`Pavers sq ft: ${d.paverSqft||0}`);
-      lines.push(`Paver tier: ${d.paverTier || "-"}`);
-      lines.push(`Gate under 3ft: ${d.gateUnder3}`);
-      lines.push(`Backyard stairs: ${d.backyardStairs}`);
-      lines.push(`Slope/grade: ${d.slope}`);
-      lines.push(`Walls: ${d.hasWalls}`);
-      if(d.hasWalls){
-        lines.push(`Wall type: ${d.wallKind}`);
-        lines.push(`Wall construction: ${d.wallBase}`);
-        if(d.wallBase === "cinderblock") lines.push(`Wall finish: ${d.wallFinish}`);
-        if(d.wallKind === "retaining" || d.wallKind === "both"){
-          lines.push(`Retaining wall: ${d.wallRet.len||0} ft L × ${d.wallRet.ht||0} ft H`);
-        }
-        if(d.wallKind === "freestanding" || d.wallKind === "both"){
-          lines.push(`Freestanding wall: ${d.wallFree.len||0} ft L × ${d.wallFree.ht||0} ft H`);
-        }
-      }
-      lines.push(`Steps being built: ${d.hasSteps}`);
-      if(d.hasSteps) lines.push(`Steps linear feet: ${d.stepsLf||0}`);
-      lines.push(`Special features: ${(d.specialFeatures||[]).join(", ") || "None"}`);
-      if(d.specialOther) lines.push(`Special features — Other: ${d.specialOther}`);
-      lines.push(`Special demolition: ${(d.specialDemo||[]).join(", ") || "None"}`);
-      if(d.demoOther) lines.push(`Special demolition — Other: ${d.demoOther}`);
-      lines.push(`Design services needed: ${d.designService}`);
-      if(r) lines.push(`Estimated range: ${money(r.lower)} – ${money(r.upper)}`);
-    }
-
-    lines.push("");
-    lines.push(`Lead Name: ${d.leadName}`);
-    lines.push(`Lead Phone: ${d.leadPhone}`);
-    lines.push(`Lead Email: ${d.leadEmail}`);
-    lines.push(`Job Site Address: ${d.jobAddress}`);
-    lines.push("");
-    lines.push("*Disclaimer: This estimate does not include special features or special demolition costs. Those items will be assessed and priced during an on-site visit by a professional.");
-
-    const message = lines.join("\n");
-
-    botMsg(
-`Thanks — got it.
-
-*Disclaimer: This estimate does not include special features or special demolition costs. Those items will be assessed and priced during an on-site visit by a professional.`
-    );
-
-    try{
-      submitLeadEmail(`New Website Lead — ${modeLabel}`, message, d.leadEmail || "");
-      botMsg("Lead sent. If you tested locally, make sure you’re opening the page via a web server (HTTP/HTTPS).");
-    }catch(e){
-      botMsg("Lead send failed (local file mode can block submissions). Deploy or run via a local web server to test.");
-    }
-
-    setInputMode(false, "Completed");
-  }
-
-  function start(){
-    resetEstimator();
-    botMsg("Hi — I’m Element Genie.");
-    intro();
-    setInputMode(false, "Use the buttons above…");
-  }
-
-  /* Click routing */
-  chat.addEventListener("click", (e) => {
-    const btn = e.target.closest("button");
-    if(!btn) return;
-
-    const row = btn.closest(".eg-actions");
-    const step = row?.dataset.step || "";
-    const kind = btn.dataset.kind || "single";
-    const value = btn.dataset.value || "";
-
-    // toggles
-    if(kind === "toggle"){
-      const set =
-        step === "areas" ? state.multi.areas :
-        step === "features" ? state.multi.features :
-        step === "demo" ? state.multi.demo : null;
-      if(!set) return;
-
-      // None behavior
-      if(value === "None"){
-        set.clear();
-        set.add("None");
-        row.querySelectorAll("button.eg-chip").forEach(b=>{
-          b.classList.toggle("selected", b.dataset.value === "None");
-        });
-        return;
-      }
-      if(set.has("None")) set.delete("None");
-
-      if(set.has(value)) set.delete(value);
-      else set.add(value);
-
-      btn.classList.toggle("selected", set.has(value));
-      return;
-    }
-
-    // done buttons
-    if(kind === "done"){
-      if(step === "areas"){
-        const chosen = Array.from(state.multi.areas);
-        if(!chosen.length){
-          botMsg("Please select at least one area, then press Done.");
-          return;
-        }
-        state.data.areas = chosen;
-        clearOldActionRows();
-        userMsg(`Areas: ${chosen.join(", ")}`);
-        askNextAreaSqft();
-        return;
-      }
-
-      if(step === "features"){
-        const set = state.multi.features;
-        if(set.has("None")){
-          state.data.specialFeatures = [];
-          state.data.specialOther = "";
-          clearOldActionRows();
-          userMsg("Special features: None");
-          askSpecialDemo();
-          return;
-        }
-        state.data.specialFeatures = Array.from(set);
-        clearOldActionRows();
-        userMsg(`Special features: ${state.data.specialFeatures.join(", ") || "None"}`);
-        askFeaturesOther();
-        return;
-      }
-
-      if(step === "demo"){
-        const set = state.multi.demo;
-        if(set.has("None")){
-          state.data.specialDemo = [];
-          state.data.demoOther = "";
-          clearOldActionRows();
-          userMsg("Special demolition: None");
-          askDesignService();
-          return;
-        }
-        state.data.specialDemo = Array.from(set);
-        clearOldActionRows();
-        userMsg(`Special demolition: ${state.data.specialDemo.join(", ") || "None"}`);
-        askDemoOther();
-        return;
-      }
-
-      return;
-    }
-
-    // single choices
-    if(step === "mode"){
-      clearOldActionRows();
-      state.mode = value;
-      userMsg(value === "design" ? "Design Estimator" : "Build Estimator");
-
-      if(value === "design"){
-        botMsg("What is the approximate project square footage? (number)");
-        state.step = "design_sqft";
-        setInputMode(true, "Enter square footage…");
-      }else{
-        state.step = "build_areas";
-        askBuildAreas();
-        setInputMode(false, "Use the buttons above…");
-      }
-      return;
-    }
-
-    if(step === "material"){
-      clearOldActionRows();
-      state.data.material = value;
-      userMsg(value === "concrete" ? "Concrete" : value === "pavers" ? "Pavers" : "Both");
-
-      const totalArea = totalSqftAllAreas(state.data);
-
-      if(value === "concrete"){
-        state.data.concreteSqft = totalArea;
-        state.data.paverSqft = 0;
-        state.data.paverTier = null;
-        askGate();
-        return;
-      }
-      if(value === "pavers"){
-        state.data.paverSqft = totalArea;
-        state.data.concreteSqft = 0;
-        askPaverTier();
-        return;
-      }
-
-      // both
-      state.data.concreteSqft = 0;
-      state.data.paverSqft = 0;
-      state.data.paverTier = null;
-      botMsg("Total CONCRETE sq ft? (number)");
-      state.step = "build_both_conc";
-      setInputMode(true, "Enter concrete sq ft…");
-      return;
-    }
-
-    if(step === "paverTier"){
-      clearOldActionRows();
-      state.data.paverTier = value;
-      userMsg(`Paver tier: ${value}`);
-      askGate();
-      return;
-    }
-
-    if(step === "gate"){
-      clearOldActionRows();
-      state.data.gateUnder3 = (value === "yes");
-      userMsg(`Gate under 3 ft: ${value === "yes" ? "Yes" : "No"}`);
-      askBackyardStairs();
-      return;
-    }
-
-    if(step === "backyardStairs"){
-      clearOldActionRows();
-      state.data.backyardStairs = (value === "yes");
-      userMsg(`Backyard stairs: ${value === "yes" ? "Yes" : "No"}`);
-      askSlope();
-      return;
-    }
-
-    if(step === "slope"){
-      clearOldActionRows();
-      state.data.slope = (value === "yes");
-      userMsg(`Slope/grade: ${value === "yes" ? "Yes" : "No"}`);
-      askWalls();
-      return;
-    }
-
-    if(step === "hasWalls"){
-      clearOldActionRows();
-      state.data.hasWalls = (value === "yes");
-      userMsg(`Walls: ${value === "yes" ? "Yes" : "No"}`);
-      if(state.data.hasWalls) askWallKind();
-      else askStepsBuilt();
-      return;
-    }
-
-    if(step === "wallKind"){
-      clearOldActionRows();
-      state.data.wallKind = value;
-      userMsg(`Wall type: ${value}`);
-      askWallBase();
-      return;
-    }
-
-    if(step === "wallBase"){
-      clearOldActionRows();
-      state.data.wallBase = value;
-      userMsg(`Wall construction: ${value}`);
-      if(value === "cinderblock") askWallFinish();
-      else askWallDims();
-      return;
-    }
-
-    if(step === "wallFinish"){
-      clearOldActionRows();
-      state.data.wallFinish = value;
-      userMsg(`Wall finish: ${value}`);
-      askWallDims();
-      return;
-    }
-
-    if(step === "hasSteps"){
-      clearOldActionRows();
-      state.data.hasSteps = (value === "yes");
-      userMsg(`Steps being built: ${value === "yes" ? "Yes" : "No"}`);
-      if(state.data.hasSteps) askStepsLf();
-      else askSpecialFeatures();
-      return;
-    }
-
-    if(step === "designService"){
-      clearOldActionRows();
-      state.data.designService = (value === "yes");
-      userMsg(`Design services: ${value === "yes" ? "Yes" : "No"}`);
-      showBuildResultThenLead();
-      return;
-    }
-  });
-
-  /* Text routing */
-  function send(){
-    const v = input.value.trim();
-    if(!v) return;
-    input.value = "";
-
-    // Design sqft
-    if(state.step === "design_sqft"){
-      const n = num(v);
-      if(n == null || n <= 0){ botMsg("Please enter a valid square footage number."); return; }
-      state.data.designSqft = n;
-      userMsg(`Design project sq ft: ${n}`);
-      showDesignResultThenLead();
-      return;
-    }
-
-    // Areas sqft
-    if(state.step === "build_area_sqft"){
-      const n = num(v);
-      if(n == null || n < 0){ botMsg("Please enter a valid number."); return; }
-      const area = state._currentArea;
-      state.data.areaSqft[area] = n;
-      userMsg(`${area}: ${n}`);
-      askNextAreaSqft();
-      return;
-    }
-
-    // Both material inputs
-    if(state.step === "build_both_conc"){
-      const n = num(v);
-      if(n == null || n < 0){ botMsg("Please enter a valid number."); return; }
-      state.data.concreteSqft = n;
-      userMsg(`Concrete sq ft: ${n}`);
-      botMsg("Total PAVERS sq ft? (number)");
-      state.step = "build_both_pavers";
-      setInputMode(true, "Enter pavers sq ft…");
-      return;
-    }
-
-    if(state.step === "build_both_pavers"){
-      const n = num(v);
-      if(n == null || n < 0){ botMsg("Please enter a valid number."); return; }
-      const totalArea = totalSqftAllAreas(state.data);
-      const sum = (state.data.concreteSqft||0) + n;
-      if(Math.abs(sum - totalArea) > 1e-6){
-        botMsg(`Concrete sq ft + Paver sq ft must equal TOTAL area sq ft (${totalArea}). Please re-enter PAVERS sq ft.`);
-        return;
-      }
-      state.data.paverSqft = n;
-      userMsg(`Pavers sq ft: ${n}`);
-      askPaverTier();
-      return;
-    }
-
-    // Wall dims
-    if(state.step.startsWith("build_wallDims_")){
-      const n = num(v);
-      if(n == null || n < 0){ botMsg("Please enter a valid number."); return; }
-
-      if(state.step === "build_wallDims_ret_len"){ state.data.wallRet.len = n; userMsg(`Retaining length: ${n} ft`); }
-      if(state.step === "build_wallDims_ret_ht"){ state.data.wallRet.ht = n; userMsg(`Retaining height: ${n} ft`); }
-      if(state.step === "build_wallDims_free_len"){ state.data.wallFree.len = n; userMsg(`Freestanding length: ${n} ft`); }
-      if(state.step === "build_wallDims_free_ht"){ state.data.wallFree.ht = n; userMsg(`Freestanding height: ${n} ft`); }
-
-      askWallDims();
-      return;
-    }
-
-    // Steps LF
-    if(state.step === "build_stepsLf"){
-      const n = num(v);
-      if(n == null || n < 0){ botMsg("Please enter a valid number."); return; }
-      state.data.stepsLf = n;
-      userMsg(`Steps linear feet: ${n}`);
-      askSpecialFeatures();
-      return;
-    }
-
-    // Features other
-    if(state.step === "build_features_other"){
-      const t = v.trim();
-      if(!t){ botMsg("Please type a short note for Other, or type 'none'."); return; }
-      state.data.specialOther = (t.toLowerCase() === "none") ? "" : t;
-      userMsg(`Other feature: ${state.data.specialOther || "None"}`);
-      askSpecialDemo();
-      return;
-    }
-
-    // Demo other
-    if(state.step === "build_demo_other"){
-      const t = v.trim();
-      if(!t){ botMsg("Please type a short note for Other, or type 'none'."); return; }
-      state.data.demoOther = (t.toLowerCase() === "none") ? "" : t;
-      userMsg(`Other demolition: ${state.data.demoOther || "None"}`);
-      askDesignService();
-      return;
-    }
-
-    // Lead steps
-    if(state.step === "lead_name"){
-      state.data.leadName = v; userMsg(`Name: ${v}`);
-      botMsg("Phone number?"); state.step = "lead_phone"; setInputMode(true, "Type phone number…"); return;
-    }
-    if(state.step === "lead_phone"){
-      state.data.leadPhone = v; userMsg(`Phone: ${v}`);
-      botMsg("Email address?"); state.step = "lead_email"; setInputMode(true, "Type email…"); return;
-    }
-    if(state.step === "lead_email"){
-      state.data.leadEmail = v; userMsg(`Email: ${v}`);
-      botMsg("Job site address?"); state.step = "lead_address"; setInputMode(true, "Type job site address…"); return;
-    }
-    if(state.step === "lead_address"){
-      state.data.jobAddress = v; userMsg(`Job site: ${v}`);
-      finishAndSendLead();
-      return;
-    }
-
-    botMsg("Use the buttons for this question, or enter a valid number where requested.");
-  }
-
-  sendBtn.addEventListener("click", send);
-  input.addEventListener("keydown",(e)=>{
-    if(e.key==="Enter"){
-      e.preventDefault();
-      send();
-    }
-  });
-
-  // Open
-  openBtn.addEventListener("click", ()=>{
-    openModal();
-    start();
-  });
-
-  // Prime
-  setInputMode(false, "Use the buttons above…");
 })();
 </script>
 
-</body>
-</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- =========================================================
+     PART 4 — ELEMENT BALLPARK GENIE (CENTERED CHAT)
+     APPEARANCE LOCKED — LOGIC LOADED VIA JS FILE
+     ========================================================= -->
+
+<style>
+.eg-section{
+  background:#f3f4f6;
+  padding:160px 24px;
+  position:relative;
+  z-index:1;
+}
+
+.eg-wrap{
+  max-width:560px;
+  margin:0 auto;
+}
+
+.eg-card{
+  background:#e5e7eb;
+  border-radius:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+.eg-header{
+  padding:32px 28px;
+  text-align:center;
+  border-bottom:1px solid rgba(0,0,0,.1);
+}
+
+.eg-logo-img{
+  max-width:260px;
+  width:100%;
+  height:auto;
+  margin:0 auto;
+}
+
+.eg-body{
+  padding:28px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  height:420px;
+  overflow-y:auto;
+}
+
+.eg-msg{
+  max-width:85%;
+  padding:14px 18px;
+  border-radius:18px;
+  font-size:14px;
+  line-height:1.45;
+}
+
+.eg-bot{
+  background:#4b5563;
+  color:#fff;
+  align-self:flex-start;
+  border-bottom-left-radius:6px;
+}
+
+.eg-user{
+  background:#fde68a;
+  color:#111827;
+  align-self:flex-end;
+  border-bottom-right-radius:6px;
+}
+
+.eg-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.eg-chip,
+.eg-primary{
+  padding:10px 16px;
+  border-radius:999px;
+  border:1px solid #9ca3af;
+  background:#fff;
+  font-size:13px;
+  cursor:pointer;
+}
+
+.eg-primary{
+  background:#111827;
+  color:#fff;
+  border-color:#111827;
+}
+
+.eg-chip.selected{
+  background:#111827;
+  color:#fff;
+}
+
+.eg-input{
+  display:flex;
+  gap:12px;
+  padding:20px 24px;
+  border-top:1px solid rgba(0,0,0,.1);
+}
+
+.eg-input input{
+  flex:1;
+  padding:14px 16px;
+  border-radius:999px;
+  border:1px solid #9ca3af;
+}
+
+.eg-input button{
+  padding:14px 22px;
+  border-radius:999px;
+  border:0;
+  background:#111827;
+  color:#fff;
+  cursor:pointer;
+}
+</style>
+
+<section class="eg-section" id="estimator">
+  <div class="eg-wrap">
+    <div class="eg-card">
+
+      <div class="eg-header">
+        <img
+          src="assets/images/element-ballpark-genie.png"
+          class="eg-logo-img"
+          alt="Element Ballpark Genie">
+      </div>
+
+      <div class="eg-body" id="egChat"></div>
+
+      <div class="eg-input">
+        <input
+          id="egInput"
+          placeholder="Use the buttons above…"
+          disabled>
+        <button id="egSend" disabled>Send</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+<div id="chat"></div>
+<!-- LOAD ESTIMATOR LOGIC -->
+<script src="assets/js/element-ballpark-genie.js"></script>
